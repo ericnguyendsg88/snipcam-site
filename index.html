@@ -3,157 +3,43 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>snipcam — 2 or 3 seconds. That’s enough.</title>
-<meta name="description" content="snipcam is a camera for the small but memorable moments. Hold to capture two or three seconds, replay your days as stacks, and rediscover your camera roll with AutoSnip. For iPhone.">
+<title>snipcam — 2 or 3 seconds. That's enough.</title>
+<meta name="description" content="snipcam is a camera for the small but memorable moments. Join the TestFlight beta for iPhone.">
 <meta name="theme-color" content="#f6f1e8">
-<meta property="og:title" content="snipcam — 2 or 3 seconds. That’s enough.">
-<meta property="og:description" content="A camera for the small but memorable moments.">
-<meta property="og:image" content="assets/icon.png">
 <link rel="icon" href="assets/icon.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-<link rel="stylesheet" href="style.css">
+<style>
+  :root { --bg: #f6f1e8; --ink: #1d1b18; --muted: #6f685e; --cta: #1d1b18; color-scheme: light; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #141311; --ink: #f4efe6; --muted: #a49c90; --cta: #f4efe6; color-scheme: dark; } }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 400 17px/1.5 -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; display: flex; flex-direction: column; }
+  main { flex: 1; display: grid; place-items: center; text-align: center; padding: 48px 22px; }
+  img { width: 112px; height: 112px; border-radius: 26px; margin: 0 auto 26px; box-shadow: 0 10px 30px rgba(0, 0, 0, .12); display: block; }
+  h1 { font-size: clamp(40px, 8vw, 64px); line-height: 1.05; letter-spacing: -.03em; margin: 0; font-weight: 700; }
+  p { color: var(--muted); font-size: 19px; margin: 14px 0 0; }
+  .cta { display: inline-block; margin-top: 32px; padding: 15px 28px; border-radius: 999px; background: var(--cta); color: var(--bg); text-decoration: none; font-weight: 600; font-size: 17px; }
+  .cta:hover { opacity: .88; }
+  .fine { font-size: 14px; margin-top: 16px; }
+  footer { display: flex; justify-content: center; gap: 22px; flex-wrap: wrap; padding: 22px; font-size: 14px; color: var(--muted); }
+  footer a { color: inherit; }
+</style>
 </head>
 <body>
-
-<header class="nav">
-  <div class="wrap">
-    <a class="brand" href="./"><img src="assets/icon.png" alt="">snipcam</a>
-    <nav class="nav-links" aria-label="Main">
-      <a href="privacy.html">Privacy</a>
-    </nav>
-  </div>
-</header>
-
 <main>
-  <!-- Hero -->
-  <section class="hero" id="notify" aria-labelledby="hero-title">
-    <div class="wrap">
-      <div class="hero-icon"><img src="assets/icon.png" alt="The snipcam app icon"></div>
-      <h1 id="hero-title">2 or 3 seconds. That’s enough.</h1>
-      <p class="lede">A camera for the small but memorable moments.</p>
-
-      <form class="notify" data-endpoint="" novalidate>
-        <input id="email-hero" type="email" name="email" placeholder="Your email" autocomplete="email" aria-label="Email" required>
-        <button class="pill" type="submit">Notify me</button>
-      </form>
-      <p class="notify-done">You’re on the list. We’ll email you once, on launch day.</p>
-      <p class="notify-note">For iPhone · Coming soon to the App Store · <a href="privacy.html#launch-list">One email, at launch</a></p>
-    </div>
-
-    <div class="deck" aria-label="A week of day stacks. Scroll sideways.">
-      <figure class="card"><img src="assets/moments/moment-05.jpg" alt="Making breakfast" loading="lazy"><div class="shade"></div><figcaption class="day" data-days-ago="5"></figcaption></figure>
-      <figure class="card"><img src="assets/moments/moment-03.jpg" alt="Asleep on the train" loading="lazy"><div class="shade"></div><figcaption class="day" data-days-ago="4"></figcaption></figure>
-      <figure class="card"><img src="assets/moments/moment-06.jpg" alt="Picking peaches at the market" loading="lazy"><div class="shade"></div><figcaption class="day" data-days-ago="3"></figcaption></figure>
-      <figure class="card"><img src="assets/moments/moment-09.jpg" alt="Friends walking in the rain" loading="lazy"><div class="shade"></div><figcaption class="day" data-days-ago="2"></figcaption></figure>
-      <figure class="card"><img src="assets/moments/moment-02.jpg" alt="Counting cards at a café" loading="lazy"><div class="shade"></div><figcaption class="day" data-days-ago="1"></figcaption></figure>
-      <figure class="card"><img src="assets/moments/moment-10.jpg" alt="Carrying lunch home" fetchpriority="high"><div class="shade"></div><figcaption class="day" data-days-ago="0"></figcaption></figure>
-    </div>
-  </section>
-
-  <!-- Capture -->
-  <section id="capture" aria-labelledby="capture-title">
-    <div class="wrap feature">
-      <div class="feature-copy reveal">
-        <span class="eyebrow">Capture</span>
-        <h2 id="capture-title">Hold to snip.</h2>
-        <p>Press and hold anywhere on the finder. Two or three seconds later, the moment is kept.</p>
-        <ul>
-          <li><span class="dot"></span><span><b>The whole finder is the button.</b> No shutter to aim for.</span></li>
-          <li><span class="dot"></span><span><b>Every day becomes a stack,</b> in the order you lived it.</span></li>
-        </ul>
-      </div>
-      <div class="reveal">
-        <div class="finder" aria-hidden="true">
-          <div class="finder-screen">
-            <img src="assets/moments/moment-09.jpg" alt="" loading="lazy">
-            <span class="finder-hold">Hold</span>
-            <span class="finder-chip">3s</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Film looks -->
-  <section id="looks" aria-labelledby="looks-title">
-    <div class="wrap">
-      <div class="reveal" style="text-align:center">
-        <span class="eyebrow">Film looks</span>
-        <h2 id="looks-title">Your snips, on film.</h2>
-      </div>
-      <div class="looks">
-        <figure class="look reveal"><img src="assets/looks/look-sunday.jpg" alt="Picking peaches at the market, in the Sunday look" loading="lazy"><figcaption>Sunday</figcaption></figure>
-        <figure class="look reveal"><img src="assets/looks/look-tungsten.jpg" alt="The same moment in the Tungsten look" loading="lazy"><figcaption>Tungsten</figcaption></figure>
-        <figure class="look reveal"><img src="assets/looks/look-silver.jpg" alt="The same moment in the Silver look" loading="lazy"><figcaption>Silver</figcaption></figure>
-      </div>
-    </div>
-  </section>
-
-  <!-- Replay -->
-  <section aria-labelledby="replay-title">
-    <div class="wrap">
-      <div class="reveal" style="text-align:center">
-        <span class="eyebrow">Replay</span>
-        <h2 id="replay-title">Your days, ready to replay.</h2>
-      </div>
-      <div class="trio">
-        <figure class="tile reveal"><img src="assets/moments/moment-04.jpg" alt="Getting ready in the hallway" loading="lazy"><div class="shade"></div><figcaption class="caption"><b>Day stacks</b><span>Your week, one day at a time.</span></figcaption></figure>
-        <figure class="tile reveal"><img src="assets/moments/moment-07.jpg" alt="By the window at home" loading="lazy"><div class="shade"></div><figcaption class="caption"><b>Life Feed</b><span>Scroll your own moments.</span></figcaption></figure>
-        <figure class="tile reveal"><img src="assets/moments/moment-08.jpg" alt="Making the bed" loading="lazy"><div class="shade"></div><figcaption class="caption"><b>Favourites</b><span>Everything you’ve hearted.</span></figcaption></figure>
-      </div>
-    </div>
-  </section>
-
-  <!-- Private + Pro -->
-  <section aria-label="Privacy and snipcam Pro">
-    <div class="wrap split">
-      <div class="panel reveal">
-        <span class="eyebrow">Private</span>
-        <h2>Stays on your iPhone.</h2>
-        <ul>
-          <li><span class="dot"></span><span>No account, no followers, no public feed.</span></li>
-          <li><span class="dot"></span><span>Backup to your own private iCloud, if you want it.</span></li>
-        </ul>
-        <p style="margin-top:22px"><a href="privacy.html">Privacy policy →</a></p>
-      </div>
-      <div class="panel pro reveal">
-        <h2>snipcam<span class="pro-badge">PRO</span></h2>
-        <ul>
-          <li><span class="dot"></span><span>Sunday and Tungsten film looks</span></li>
-          <li><span class="dot"></span><span>Save and share without the snipcam mark</span></li>
-          <li><span class="dot"></span><span>AutoSnip your camera roll, as often as you like</span></li>
-        </ul>
-        <p class="soft" style="margin-top:22px">Capturing, your library, sharing and iCloud backup stay free.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Closing -->
-  <section class="closing" aria-labelledby="closing-title">
-    <div class="wrap reveal">
-      <h2 id="closing-title">Keep the little things.</h2>
-      <form class="notify" data-endpoint="" novalidate>
-        <input type="email" name="email" placeholder="Your email" autocomplete="email" aria-label="Email" required>
-        <button class="pill" type="submit">Notify me</button>
-      </form>
-      <p class="notify-done">You’re on the list. We’ll email you once, on launch day.</p>
-      <p class="notify-note">For iPhone · <a href="privacy.html#launch-list">One email, at launch</a></p>
-    </div>
-  </section>
-
-</main>
-
-<footer>
-  <div class="wrap">
-    <span>© 2026 snipcam · Eric Nguyen</span>
-    <nav aria-label="Footer">
-      <a href="privacy.html">Privacy</a>
-      <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Terms of Use</a>
-      <a href="mailto:ericnguyendsg@gmail.com">Support</a>
-    </nav>
+  <div>
+    <img src="assets/icon.png" alt="snipcam app icon">
+    <h1>2 or 3 seconds.<br>That's enough.</h1>
+    <p>A camera for the small but memorable moments.</p>
+    <a class="cta" href="https://testflight.apple.com/join/RshC7Wny">Join the TestFlight beta</a>
+    <p class="fine">For iPhone · Free beta through Apple's TestFlight app</p>
   </div>
+</main>
+<footer>
+  <span>© 2026 snipcam · Eric Nguyen</span>
+  <a href="privacy.html">Privacy</a>
+  <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Terms of Use</a>
+  <a href="mailto:ericnguyendsg@gmail.com">Support</a>
 </footer>
-
-<script src="app.js" defer></script>
 </body>
 </html>
