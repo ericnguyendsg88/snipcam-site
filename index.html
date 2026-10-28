@@ -58,51 +58,21 @@
   footer { display: flex; justify-content: center; gap: 22px; flex-wrap: wrap; padding: 22px; font-size: 14px; color: var(--muted); }
   footer a { color: inherit; }
   main { display: block; padding: 64px 22px 48px; }
-  .screens { max-width: 900px; margin: 80px auto 0; }
+  .screens { max-width: 960px; margin: 80px auto 0; }
   .eyebrow { text-transform: uppercase; letter-spacing: .14em; font-size: 12px; font-weight: 600; }
   h2 { font-size: clamp(28px, 5vw, 40px); line-height: 1.15; letter-spacing: -.025em; margin: 12px 0; }
-  .screen-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; max-width: 860px; margin: 40px auto 0; }
+  .screen-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; max-width: 920px; margin: 40px auto 0; }
   figure { margin: 0; min-width: 0; }
-  /* Live app screens: each phone is laid out in the app's own points (402 × 874) and scales with its width. */
-  .phone { position: relative; aspect-ratio: 402 / 874; border-radius: 32px; border: 5px solid #24231f; box-shadow: 0 18px 40px rgba(0,0,0,.18); overflow: hidden; container-type: inline-size; background: #f5f3ee; color: #1d1b18; text-align: left; font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; }
-  .scr { position: absolute; inset: 0; --u: calc(100cqw / 402); }
-  .a { position: absolute; left: calc(var(--x) * var(--u)); top: calc(var(--y) * var(--u)); width: calc(var(--w) * var(--u)); height: calc(var(--h) * var(--u)); }
-  .scr video, .scr .img { display: block; width: 100%; height: 100%; object-fit: cover; }
-  .scr svg { display: block; width: 100%; height: 100%; }
-  .t { position: absolute; left: calc(var(--x) * var(--u)); top: calc(var(--y) * var(--u)); font-size: calc(var(--s) * var(--u)); line-height: 1.15; white-space: nowrap; }
-  .status { color: inherit; }
-  .island { background: #000; border-radius: calc(18 * var(--u)); }
-  .glass { background: rgba(30, 30, 30, .42); border: calc(1 * var(--u)) solid rgba(255,255,255,.22); border-radius: 999px; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); color: #fff; display: grid; place-items: center; }
-  .dock { background: rgba(255,255,255,.94); border-radius: 999px; box-shadow: 0 calc(6 * var(--u)) calc(22 * var(--u)) rgba(0,0,0,.1); }
-  .seg { background: #ebe9e4; border-radius: 999px; }
-  .ico { color: #1d1b18; }
-  /* Capture */
-  .rim { border-radius: calc(32 * var(--u)); background: linear-gradient(160deg, #fdfcfa, #e9e5de); box-shadow: inset 0 0 0 calc(1 * var(--u)) rgba(0,0,0,.12), 0 calc(2 * var(--u)) calc(10 * var(--u)) rgba(0,0,0,.08); }
-  .finder { border-radius: calc(25 * var(--u)); overflow: hidden; background: #222; }
-  .finder video { transform: scale(1.16); transform-origin: 50% 100%; }
-  .chip-s { font-weight: 600; color: #fff; font-size: calc(15 * var(--u)); display: grid; place-items: center; border-radius: 999px; }
-  .chip-s.on { background: #fff; color: #1d1b18; }
-  /* Gallery */
-  .card { border-radius: calc(18 * var(--u)); overflow: hidden; background: #ddd; }
-  .card .img { object-position: 50% 85%; }
-  .pill { border-radius: calc(17 * var(--u)); }
-  .mini { border-radius: calc(7 * var(--u)); overflow: hidden; border: calc(2 * var(--u)) solid #fff; box-shadow: 0 calc(2 * var(--u)) calc(6 * var(--u)) rgba(0,0,0,.18); transform: rotate(-4deg); }
-  .mini .img { object-position: 50% 85%; }
-  .round { border-radius: 999px; background: #fff; box-shadow: 0 calc(3 * var(--u)) calc(12 * var(--u)) rgba(0,0,0,.07); display: grid; place-items: center; }
-  /* Stack player */
-  .player { background: #000; color: #fff; }
-  .bar { border-radius: 999px; background: rgba(255,255,255,.35); overflow: hidden; }
-  .bar i { display: block; height: 100%; width: 0; background: #fff; border-radius: 999px; }
-  .strip { overflow: hidden; }
-  .strip-in { display: flex; gap: calc(6 * var(--u)); height: 100%; transition: transform .45s cubic-bezier(.3,.1,.2,1); }
-  .thumb { flex: none; width: calc(52 * var(--u)); height: calc(70 * var(--u)); margin-top: calc(1 * var(--u)); border-radius: calc(9 * var(--u)); overflow: hidden; border: calc(1.5 * var(--u)) solid rgba(255,255,255,.25); transition: border-color .2s, transform .2s; }
-  .thumb .img { object-position: 50% 85%; }
-  .thumb.on { border: calc(3 * var(--u)) solid #fff; transform: translateY(calc(-2 * var(--u))); }
-  @media(max-width: 480px) { .phone { border-radius: 20px; border-width: 3px; } }
+  .screen-grid img, .screen-grid video { display: block; width: 100%; height: auto; border-radius: 32px; box-shadow: 0 18px 40px rgba(0,0,0,.18); border: 5px solid #24231f; }
   figcaption { font-size: 14px; color: var(--muted); margin: 22px 0 0; }
   figcaption strong { color: var(--ink); font-size: 17px; }
   a:focus-visible { outline: 3px solid #b88b4c; outline-offset: 5px; }
-  @media(max-width: 480px) { .screen-grid { gap: 10px; } figcaption { font-size: 12px; } figcaption strong { font-size: 14px; } .screens { margin-top: 64px; } }
+  @media(max-width: 640px) {
+    .screen-grid { grid-template-columns: 1fr; max-width: 300px; gap: 36px; }
+    .screen-grid img, .screen-grid video { border-radius: 28px; border-width: 4px; }
+    figcaption { margin-top: 14px; }
+    .screens { margin-top: 64px; }
+  }
 </style>
 </head>
 <body>
@@ -125,83 +95,9 @@
   <section class="screens" aria-labelledby="screens-title">
     <h2 id="screens-title">Inside snipcam</h2>
     <div class="screen-grid">
-      <figure>
-        <div class="phone" role="img" aria-label="SnipCam camera with a snip in the viewfinder and the two- and three-second controls">
-          <div class="scr">
-            <span class="t status" style="--x:44;--y:21;--s:17;font-weight:600">09:41</span>
-            <div class="a island" style="--x:138;--y:14;--w:126;--h:36"></div>
-            <div class="a" style="--x:286;--y:24;--w:82;--h:16"><svg viewBox="0 0 82 16"><g fill="#1d1b18"><rect x="0" y="10" width="3" height="5" rx="1"/><rect x="5" y="7" width="3" height="8" rx="1"/><rect x="10" y="4" width="3" height="11" rx="1"/><rect x="15" y="1" width="3" height="14" rx="1"/><path d="M33 14.5l-2.2-2.6a3.4 3.4 0 0 1 4.4 0zM28.8 9.6a6.6 6.6 0 0 1 8.4 0l-1.3 1.6a4.6 4.6 0 0 0-5.8 0zM26.6 7a10 10 0 0 1 12.8 0l-1.3 1.5a8 8 0 0 0-10.2 0z"/></g><rect x="50" y="2" width="26" height="12" rx="3.5" fill="none" stroke="#1d1b18" stroke-opacity=".4"/><rect x="52" y="4" width="22" height="8" rx="2" fill="#34c759"/><rect x="77.5" y="6" width="1.8" height="4" rx=".9" fill="#1d1b18" fill-opacity=".4"/></svg></div>
-            <div class="a rim" style="--x:20;--y:81;--w:361;--h:650"></div>
-            <div class="a finder" style="--x:27;--y:88;--w:347;--h:636"><video data-snip="7" muted playsinline loop preload="metadata" poster="assets/snips/p7.jpg"></video></div>
-            <div class="a glass" style="--x:241;--y:94;--w:78;--h:36;justify-items:stretch"><div style="display:flex;height:100%;align-items:center;padding:0 calc(3*var(--u));gap:calc(4*var(--u))"><span class="round" style="width:calc(36*var(--u));height:calc(30*var(--u));box-shadow:none"><svg viewBox="0 0 24 24" style="width:calc(17*var(--u));height:calc(17*var(--u))" fill="#1d1b18"><path d="M9 4h6l1.6 2H20a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3.4z"/><circle cx="12" cy="13" r="3.6" fill="#fff"/></svg></span><svg viewBox="0 0 24 24" style="width:calc(18*var(--u));height:calc(18*var(--u));margin-left:calc(5*var(--u))" fill="#fff"><rect x="3" y="4" width="8" height="16" rx="2"/><rect x="13" y="4" width="8" height="16" rx="2"/></svg></div></div>
-            <div class="a glass" style="--x:327;--y:94;--w:36;--h:36"><svg viewBox="0 0 24 24" style="width:calc(18*var(--u));height:calc(18*var(--u))" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5h6l1.4 2H20a1.5 1.5 0 0 1 1.5 1.5v9A1.5 1.5 0 0 1 20 19H4a1.5 1.5 0 0 1-1.5-1.5v-9A1.5 1.5 0 0 1 4 7h3.6z"/><path d="M8.8 12.6a3.3 3.3 0 0 1 5.9-1.6M15.2 13.4a3.3 3.3 0 0 1-5.9 1.6M14.7 9.4V11h-1.6M9.3 16.6V15h1.6"/></svg></div>
-            <div class="a glass" style="--x:39;--y:690;--w:89;--h:34;display:flex;padding:calc(2*var(--u));gap:0"><span class="chip-s" style="flex:1;height:100%">2s</span><span class="chip-s on" style="flex:1;height:100%">3s</span></div>
-            <div class="a dock" style="--x:76;--y:757;--w:250;--h:61"></div>
-            <div class="a seg" style="--x:159;--y:762;--w:84;--h:51"></div>
-            <div class="a ico" style="--x:111;--y:775;--w:24;--h:24"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 3h6M8 5.5h8"/><rect x="6" y="8" width="12" height="13" rx="3"/></svg></div>
-            <div class="a" style="--x:190;--y:776;--w:22;--h:22;background:#1d1b18;border-radius:calc(6*var(--u))"></div>
-            <div class="a ico" style="--x:266;--y:774;--w:26;--h:26"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
-          </div>
-        </div>
-        <figcaption><strong>Capture</strong><br>Hold to keep a moment.</figcaption>
-      </figure>
-      <figure>
-        <div class="phone" role="img" aria-label="SnipCam Gallery with Day Stacks, Life Feed, Favourites and Your Stacks">
-          <div class="scr">
-            <span class="t status" style="--x:44;--y:21;--s:17;font-weight:600">09:41</span>
-            <div class="a island" style="--x:138;--y:14;--w:126;--h:36"></div>
-            <div class="a" style="--x:286;--y:24;--w:82;--h:16"><svg viewBox="0 0 82 16"><g fill="#1d1b18"><rect x="0" y="10" width="3" height="5" rx="1"/><rect x="5" y="7" width="3" height="8" rx="1"/><rect x="10" y="4" width="3" height="11" rx="1"/><rect x="15" y="1" width="3" height="14" rx="1"/><path d="M33 14.5l-2.2-2.6a3.4 3.4 0 0 1 4.4 0zM28.8 9.6a6.6 6.6 0 0 1 8.4 0l-1.3 1.6a4.6 4.6 0 0 0-5.8 0zM26.6 7a10 10 0 0 1 12.8 0l-1.3 1.5a8 8 0 0 0-10.2 0z"/></g><rect x="50" y="2" width="26" height="12" rx="3.5" fill="none" stroke="#1d1b18" stroke-opacity=".4"/><rect x="52" y="4" width="22" height="8" rx="2" fill="#34c759"/><rect x="77.5" y="6" width="1.8" height="4" rx=".9" fill="#1d1b18" fill-opacity=".4"/></svg></div>
-            <span class="t" style="--x:16;--y:84;--s:38;font-weight:700;letter-spacing:-.02em">Gallery</span>
-            <div class="a round" style="--x:292;--y:84;--w:42;--h:42"><svg viewBox="0 0 24 24" style="width:calc(19*var(--u));height:calc(19*var(--u))" fill="none" stroke="#1d1b18" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></svg></div>
-            <div class="a round" style="--x:344;--y:84;--w:42;--h:42"><svg viewBox="0 0 24 24" style="width:calc(20*var(--u));height:calc(20*var(--u))" fill="none" stroke="#1d1b18" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="15" height="12" rx="2"/><path d="M5 15l4-4 3 3 2-2 3 3"/><circle cx="18.5" cy="17.5" r="4" fill="#fff"/><path d="M18.5 15.6v3.8M16.6 17.5h3.8"/></svg></div>
-            <span class="t" style="--x:16;--y:158;--s:20;font-weight:600">Day Stacks</span>
-            <span class="t" style="--x:296;--y:160;--s:15;font-weight:500"><svg viewBox="0 0 24 24" style="display:inline-block;vertical-align:-.15em;width:1.1em;height:1.1em;margin-right:.35em" fill="none" stroke="#1d1b18" stroke-width="2"><rect x="3" y="5" width="18" height="15" rx="2"/><path d="M3 10h18M7 13h2M11 13h2M15 13h2M7 16h2M11 16h2"/></svg>Calendar</span>
-            <div class="a card" style="--x:16;--y:207;--w:178;--h:262"><video data-snip="4" muted playsinline loop preload="metadata" poster="assets/snips/p4.jpg" style="object-position:50% 85%"></video></div>
-            <div class="a card" style="--x:207;--y:207;--w:178;--h:262"><img class="img" src="assets/snips/p3.jpg" alt=""></div>
-            <div class="a card" style="--x:398;--y:207;--w:178;--h:262"><img class="img" src="assets/snips/p9.jpg" alt=""></div>
-            <span class="t" style="--x:16;--y:482;--s:16;font-weight:600">Thursday</span><span class="t" style="--x:16;--y:502;--s:14;color:#7a756d">1 snip</span>
-            <span class="t" style="--x:207;--y:482;--s:16;font-weight:600">Wednesday</span><span class="t" style="--x:207;--y:502;--s:14;color:#7a756d">1 snip</span>
-            <div class="a pill" style="--x:16;--y:559;--w:178;--h:73;background:#ecebf8;border:calc(1*var(--u)) solid #d8d3f2"></div>
-            <div class="a mini" style="--x:29;--y:570;--w:40;--h:54"><img class="img" src="assets/snips/s1.jpg" alt=""></div>
-            <span class="t" style="--x:82;--y:574;--s:16;font-weight:600">Life Feed</span><span class="t" style="--x:82;--y:597;--s:14;font-weight:500;color:#7c6ae0">10 snips</span>
-            <div class="a round" style="--x:171;--y:553;--w:28;--h:28;background:#7a68e8;box-shadow:0 0 0 calc(2*var(--u)) #fff"><svg viewBox="0 0 24 24" style="width:calc(15*var(--u));height:calc(15*var(--u))" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg></div>
-            <div class="a pill" style="--x:207;--y:559;--w:178;--h:73;background:#f9e4e7;border:calc(1*var(--u)) solid #efcad0"></div>
-            <div class="a mini" style="--x:220;--y:570;--w:40;--h:54"><img class="img" src="assets/snips/s8.jpg" alt=""></div>
-            <span class="t" style="--x:273;--y:574;--s:16;font-weight:600">Favourites</span><span class="t" style="--x:273;--y:597;--s:14;font-weight:500;color:#e0556b">3 snips</span>
-            <div class="a" style="--x:361;--y:551;--w:30;--h:30"><svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.2 0 3.7 1.2 5.3 3.1 1.6-1.9 3.1-3.1 5.3-3.1 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z" fill="#ec4d69" stroke="#fff" stroke-width="1.6"/></svg></div>
-            <span class="t" style="--x:16;--y:669;--s:20;font-weight:600">Your Stacks</span>
-            <div class="a round" style="--x:305;--y:659;--w:80;--h:42"><span style="font-size:calc(16*var(--u));font-weight:500">＋ New</span></div>
-            <div class="a card" style="--x:16;--y:714;--w:178;--h:262"><img class="img" src="assets/snips/p8.jpg" alt=""></div>
-            <div class="a dock" style="--x:76;--y:757;--w:250;--h:61"></div>
-            <div class="a seg" style="--x:81;--y:762;--w:84;--h:51"></div>
-            <div class="a ico" style="--x:111;--y:775;--w:24;--h:24"><svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 3h6M8 5.5h8" fill="none"/><rect x="6" y="8" width="12" height="13" rx="3"/></svg></div>
-            <div class="a ico" style="--x:190;--y:776;--w:22;--h:22;border:calc(2*var(--u)) solid #1d1b18;border-radius:calc(6*var(--u))"></div>
-            <div class="a ico" style="--x:266;--y:774;--w:26;--h:26"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
-          </div>
-        </div>
-        <figcaption><strong>Gallery</strong><br>Revisit your days and stacks.</figcaption>
-      </figure>
-      <figure>
-        <div class="phone player" id="stack-player" role="img" aria-label="SnipCam stack player playing ten snips in a row, with a strip of them along the bottom">
-          <div class="scr">
-            <div class="a" style="--x:0;--y:0;--w:402;--h:874"><video id="sp-video" muted playsinline preload="auto" poster="assets/snips/p8.jpg" style="object-position:0 50%"></video></div>
-            <div class="a" style="--x:0;--y:0;--w:402;--h:150;background:linear-gradient(rgba(0,0,0,.35),transparent)"></div>
-            <div class="a" style="--x:0;--y:690;--w:402;--h:184;background:linear-gradient(transparent,rgba(0,0,0,.45))"></div>
-            <span class="t status" style="--x:44;--y:21;--s:17;font-weight:600">09:41</span>
-            <div class="a island" style="--x:138;--y:14;--w:126;--h:36"></div>
-            <div class="a" style="--x:286;--y:24;--w:82;--h:16"><svg viewBox="0 0 82 16"><g fill="#fff"><rect x="0" y="10" width="3" height="5" rx="1"/><rect x="5" y="7" width="3" height="8" rx="1"/><rect x="10" y="4" width="3" height="11" rx="1"/><rect x="15" y="1" width="3" height="14" rx="1"/><path d="M33 14.5l-2.2-2.6a3.4 3.4 0 0 1 4.4 0zM28.8 9.6a6.6 6.6 0 0 1 8.4 0l-1.3 1.6a4.6 4.6 0 0 0-5.8 0zM26.6 7a10 10 0 0 1 12.8 0l-1.3 1.5a8 8 0 0 0-10.2 0z"/></g><rect x="50" y="2" width="26" height="12" rx="3.5" fill="none" stroke="#fff" stroke-opacity=".5"/><rect x="52" y="4" width="22" height="8" rx="2" fill="#34c759"/></svg></div>
-            <div class="a glass" style="--x:342;--y:67;--w:40;--h:40"><svg viewBox="0 0 24 24" style="width:calc(17*var(--u));height:calc(17*var(--u))" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></div>
-            <div class="a glass" style="--x:342;--y:423;--w:44;--h:44"><svg viewBox="0 0 24 24" style="width:calc(20*var(--u));height:calc(20*var(--u))" fill="none" stroke="#fff" stroke-width="2"><path d="M12 20s-7-4.3-8.9-8.6C1.7 8.3 3.6 4.8 7 4.8c2 0 3.4 1.1 5 2.9 1.6-1.8 3-2.9 5-2.9 3.4 0 5.3 3.5 3.9 6.6C19 15.7 12 20 12 20z"/></svg></div>
-            <div class="a glass" style="--x:342;--y:479;--w:44;--h:44"><span style="font-size:calc(17*var(--u));font-weight:500">Aa</span></div>
-            <div class="a glass" style="--x:342;--y:535;--w:44;--h:44"><svg viewBox="0 0 24 24" style="width:calc(16*var(--u));height:calc(16*var(--u))" fill="#fff"><rect x="5" y="4" width="4.5" height="16" rx="1.2"/><rect x="14.5" y="4" width="4.5" height="16" rx="1.2"/></svg></div>
-            <div class="a glass" style="--x:342;--y:591;--w:44;--h:44"><svg viewBox="0 0 24 24" style="width:calc(19*var(--u));height:calc(19*var(--u))" fill="#fff"><path d="M3 9.5h4l5-4.5v14l-5-4.5H3z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round"/></svg></div>
-            <div class="a glass" style="--x:342;--y:647;--w:44;--h:44"><svg viewBox="0 0 24 24" style="width:calc(18*var(--u));height:calc(18*var(--u))" fill="#fff"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></div>
-            <div class="a bar" style="--x:20;--y:721;--w:298;--h:5"><i id="sp-bar"></i></div>
-            <div class="a strip" style="--x:16;--y:750;--w:386;--h:78"><div class="strip-in" id="sp-strip"></div></div>
-          </div>
-        </div>
-        <figcaption><strong>Stack player</strong><br>Play a stack back, snip by snip.</figcaption>
-      </figure>
+      <figure><img src="assets/capture-real-snips.jpg" width="1206" height="2622" alt="SnipCam capture screen showing a real sunset snip"><figcaption><strong>Capture</strong></figcaption></figure>
+      <figure><video controls playsinline loop preload="metadata" poster="assets/playback-real-snips.jpg" width="1206" height="2622" aria-label="Real SnipCam playback with the supplied snips"><source src="assets/playback-real-snips.mp4" type="video/mp4"><a href="assets/playback-real-snips.mp4">Watch SnipCam playback</a></video><figcaption><strong>Playback</strong></figcaption></figure>
+      <figure><img src="assets/gallery-real-snips.jpg" width="1206" height="2622" alt="SnipCam Gallery with real snips in This week, Life Feed, Favourites, and Your Stacks"><figcaption><strong>Gallery</strong></figcaption></figure>
     </div>
     <a class="cta" href="https://testflight.apple.com/join/RshC7Wny">Try SnipCam on TestFlight</a>
   </section>
@@ -212,50 +108,7 @@
   <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Terms of Use</a>
   <a href="mailto:ericnguyendsg@gmail.com">Support</a>
 </footer>
-<script>
-// The phones play real snips: the camera and gallery loop theirs, and the stack player runs
-// all ten in order, its progress bar and strip following along as the app's player does.
-(function () {
-  var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var N = 10, src = function (i) { return "assets/snips/s" + i + ".mp4"; };
-  document.querySelectorAll("video[data-snip]").forEach(function (v) { v.src = src(v.dataset.snip); });
 
-  var video = document.getElementById("sp-video"), bar = document.getElementById("sp-bar"), strip = document.getElementById("sp-strip");
-  if (video) {
-    var thumbs = [];
-    for (var k = 0; k < N; k++) {
-      var t = document.createElement("div");
-      t.className = "thumb";
-      t.innerHTML = '<img class="img" src="assets/snips/s' + k + '.jpg" alt="">';
-      strip.appendChild(t);
-      thumbs.push(t);
-    }
-    var i = 0;
-    function show(n) {
-      i = n % N;
-      video.src = src(i);
-      thumbs.forEach(function (t, j) { t.classList.toggle("on", j === i); });
-      // Keep the current snip in view: the strip scrolls once past the second thumb.
-      var step = strip.firstChild.getBoundingClientRect().width + parseFloat(getComputedStyle(strip).columnGap || 0);
-      strip.style.transform = "translateX(" + (-Math.max(0, Math.min(i - 2, N - 6)) * step) + "px)";
-      if (!reduce) video.play().catch(function () {});
-    }
-    video.addEventListener("ended", function () { show(i + 1); });
-    video.addEventListener("timeupdate", function () {
-      if (video.duration) bar.style.width = ((i + video.currentTime / video.duration) / N * 100) + "%";
-    });
-    show(0);
-  }
-
-  // Play only while on screen.
-  var vids = [].slice.call(document.querySelectorAll(".phone video"));
-  if (reduce || !("IntersectionObserver" in window)) { vids.forEach(function (v) { v.pause(); }); return; }
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) { if (e.isIntersecting) e.target.play().catch(function () {}); else e.target.pause(); });
-  }, { threshold: 0.2 });
-  vids.forEach(function (v) { io.observe(v); });
-})();
-</script>
 <script>
 (function () {
   var mark = document.querySelector(".mark");
