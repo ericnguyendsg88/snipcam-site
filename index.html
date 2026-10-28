@@ -164,7 +164,16 @@
     mark.classList.add("play");
   }
 
-  (document.fonts ? document.fonts.ready : Promise.resolve()).then(function () {
+  // Start once the font and the glass tile are both ready, so nothing pops in mid-animation.
+  var glass = mark.querySelector(".glass");
+  Promise.all([
+    document.fonts ? document.fonts.ready : null,
+    new Promise(function (done) {
+      if (glass.complete) return done();
+      glass.addEventListener("load", done);
+      glass.addEventListener("error", done);
+    })
+  ]).then(function () {
     // Measuring needs the drawing shown; it stays empty until the letters are in.
     mark.classList.add("live");
     try { draw(); } catch (e) { mark.classList.remove("live"); return; }
