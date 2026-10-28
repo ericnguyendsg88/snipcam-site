@@ -257,8 +257,7 @@
     var reach = 4 + 22 * (reduce ? 0.3 : swell(t - 0.15)) + 4 * smooth(p);
     band.style.setProperty("--thick", ((5 + reach * 0.6) * k).toFixed(2) + "px");
     band.style.setProperty("--on", smooth(t / 0.2).toFixed(3));
-    // One pass over the whole hold, easing in and out; never repeated.
-    band.style.setProperty("--sweep", (reduce ? 50 : 100 - smooth(p) * 100).toFixed(1) + "%");
+    band.style.setProperty("--sweep", (reduce ? 50 : 100 - (t / 3.2 % 1) * 100).toFixed(1) + "%");
     if (p >= 1) return release();
     raf = requestAnimationFrame(frame);
   }
