@@ -58,16 +58,16 @@
   footer { display: flex; justify-content: center; gap: 22px; flex-wrap: wrap; padding: 22px; font-size: 14px; color: var(--muted); }
   footer a { color: inherit; }
   main { display: block; padding: 64px 22px 48px; }
-  .screens { max-width: 800px; margin: 80px auto 0; }
+  .screens { max-width: 900px; margin: 80px auto 0; }
   .eyebrow { text-transform: uppercase; letter-spacing: .14em; font-size: 12px; font-weight: 600; }
   h2 { font-size: clamp(28px, 5vw, 40px); line-height: 1.15; letter-spacing: -.025em; margin: 12px 0; }
-  .screen-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px; max-width: 620px; margin: 40px auto 0; }
+  .screen-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; max-width: 860px; margin: 40px auto 0; }
   figure { margin: 0; min-width: 0; }
   .screen-grid img { display: block; width: 100%; height: auto; border-radius: 32px; box-shadow: 0 18px 40px rgba(0,0,0,.18); border: 5px solid #24231f; }
   figcaption { font-size: 14px; color: var(--muted); margin: 22px 0 0; }
   figcaption strong { color: var(--ink); font-size: 17px; }
   a:focus-visible { outline: 3px solid #b88b4c; outline-offset: 5px; }
-  @media(max-width: 480px) { .screen-grid { gap: 14px; } .screen-grid img { border-radius: 20px; border-width: 3px; } figcaption { font-size: 12px; } figcaption strong { font-size: 14px; } .screens { margin-top: 64px; } }
+  @media(max-width: 480px) { .screen-grid { gap: 10px; } .screen-grid img { border-radius: 20px; border-width: 3px; } figcaption { font-size: 12px; } figcaption strong { font-size: 14px; } .screens { margin-top: 64px; } }
 </style>
 </head>
 <body>
@@ -92,6 +92,7 @@
     <div class="screen-grid">
       <figure><img src="assets/camera-build7.jpg" width="1206" height="2622" alt="SnipCam camera with two- and three-second capture controls"><figcaption><strong>Capture</strong><br>Hold to keep a moment.</figcaption></figure>
       <figure><img src="assets/gallery-build7.jpg" width="1206" height="2622" alt="SnipCam Gallery showing Day Stacks, Life Feed, Favourites, and Your Stacks"><figcaption><strong>Gallery</strong><br>Revisit your days and stacks.</figcaption></figure>
+      <figure><img src="assets/player-build7.jpg" width="1206" height="2622" alt="SnipCam stack player playing the Small things stack, with a strip of its snips along the bottom" loading="lazy"><figcaption><strong>Stack player</strong><br>Play a stack back, snip by snip.</figcaption></figure>
     </div>
     <a class="cta" href="https://testflight.apple.com/join/RshC7Wny">Try SnipCam on TestFlight</a>
   </section>
