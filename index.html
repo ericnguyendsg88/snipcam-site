@@ -67,6 +67,21 @@
   figcaption { font-size: 14px; color: var(--muted); margin: 22px 0 0; }
   figcaption strong { color: var(--ink); font-size: 17px; }
   a:focus-visible { outline: 3px solid #b88b4c; outline-offset: 5px; }
+  .feedback { max-width: 520px; margin: 96px auto 0; text-align: left; }
+  .feedback h2 { text-align: center; }
+  .fb-kind { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; margin: 28px 0 14px; border-radius: 999px; background: color-mix(in srgb, var(--ink) 8%, transparent); }
+  .fb-kind label { position: relative; text-align: center; padding: 9px 0; border-radius: 999px; font-weight: 600; font-size: 15px; color: var(--muted); cursor: pointer; }
+  .fb-kind input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+  .fb-kind label:has(input:checked) { background: var(--bg); color: var(--ink); box-shadow: 0 1px 4px rgba(0,0,0,.14); }
+  .fb-kind label:has(input:focus-visible) { outline: 3px solid #b88b4c; outline-offset: 2px; }
+  .feedback textarea, .feedback input[type=email] { display: block; width: 100%; font: inherit; font-size: 16px; color: var(--ink); background: color-mix(in srgb, var(--ink) 6%, transparent); border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent); border-radius: 18px; padding: 14px 16px; margin-bottom: 12px; resize: vertical; }
+  .feedback textarea { min-height: 132px; }
+  .feedback textarea::placeholder, .feedback input::placeholder { color: var(--muted); }
+  .feedback textarea:focus-visible, .feedback input:focus-visible { outline: 3px solid #b88b4c; outline-offset: 2px; }
+  .feedback .cta { display: block; width: 100%; margin-top: 4px; border: 0; font: inherit; font-weight: 600; cursor: pointer; }
+  .feedback .cta:disabled { opacity: .5; cursor: default; }
+  .fb-note { text-align: center; font-size: 15px; margin-top: 14px; min-height: 1.5em; }
+  .fb-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
   @media(max-width: 640px) {
     .screen-grid { grid-template-columns: 1fr; max-width: 300px; gap: 36px; }
     .screen-grid img, .screen-grid video { border-radius: 28px; border-width: 4px; }
@@ -100,6 +115,23 @@
       <figure><video autoplay muted playsinline loop preload="metadata" poster="assets/playback-real-snips.jpg" width="720" height="1564" aria-label="snipcam replaying a stack of snips"><source src="assets/playback-real-snips.mp4" type="video/mp4"><a href="assets/playback-real-snips.mp4">Watch snipcam playback</a></video><figcaption><strong>Replay your stack</strong></figcaption></figure>
     </div>
     <a class="cta" href="https://testflight.apple.com/join/RshC7Wny">Try SnipCam on TestFlight</a>
+  </section>
+  <section class="feedback" aria-labelledby="fb-title">
+    <h2 id="fb-title" style="text-align:center">Tell us what to build</h2>
+    <form id="fb-form" action="https://formsubmit.co/ericnguyendsg@gmail.com" method="POST">
+      <div class="fb-kind" role="radiogroup" aria-label="Type">
+        <label><input type="radio" name="kind" value="Feature idea" checked>Feature idea</label>
+        <label><input type="radio" name="kind" value="Feedback">Feedback</label>
+      </div>
+      <textarea name="message" required maxlength="2000" aria-label="Your message" placeholder="What should snipcam do?"></textarea>
+      <input type="email" name="email" autocomplete="email" aria-label="Email (optional)" placeholder="Email (optional)">
+      <input type="text" name="_honey" class="fb-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <input type="hidden" name="_subject" value="snipcam landing feedback">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="false">
+      <button class="cta" type="submit">Send</button>
+      <p class="fb-note" id="fb-note" role="status" aria-live="polite"></p>
+    </form>
   </section>
 </main>
 <footer>
@@ -187,6 +219,25 @@
     play();
   });
   mark.addEventListener("click", play);
+})();
+</script>
+<script>
+(function () {
+  var form = document.getElementById("fb-form");
+  if (!form) return;
+  var note = document.getElementById("fb-note");
+  var btn = form.querySelector("button");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    btn.disabled = true;
+    note.textContent = "";
+    var data = new FormData(form);
+    fetch("https://formsubmit.co/ajax/ericnguyendsg@gmail.com", { method: "POST", headers: { Accept: "application/json" }, body: data })
+      .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+      .then(function () { form.reset(); note.textContent = "Got it. Thank you."; })
+      .catch(function () { note.innerHTML = 'Didn\u2019t send. <a href="mailto:ericnguyendsg@gmail.com">Email it instead</a>.'; })
+      .then(function () { btn.disabled = false; });
+  });
 })();
 </script>
 </body>
