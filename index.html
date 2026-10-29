@@ -58,34 +58,15 @@
   footer { display: flex; justify-content: center; gap: 22px; flex-wrap: wrap; padding: 22px; font-size: 14px; color: var(--muted); }
   footer a { color: inherit; }
   main { display: block; padding: 64px 22px 48px; }
-  .screens { max-width: 960px; margin: 80px auto 0; }
+  .screens { max-width: 1040px; margin: 80px auto 0; }
   .eyebrow { text-transform: uppercase; letter-spacing: .14em; font-size: 12px; font-weight: 600; }
   h2 { font-size: clamp(28px, 5vw, 40px); line-height: 1.15; letter-spacing: -.025em; margin: 12px 0; }
-  .screen-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; max-width: 920px; margin: 40px auto 0; }
+  .screen-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; max-width: 1000px; margin: 40px auto 0; }
   figure { margin: 0; min-width: 0; }
   .screen-grid img, .screen-grid video { display: block; width: 100%; height: auto; border-radius: 32px; box-shadow: 0 18px 40px rgba(0,0,0,.18); border: 5px solid #24231f; }
   figcaption { font-size: 14px; color: var(--muted); margin: 22px 0 0; }
   figcaption strong { color: var(--ink); font-size: 17px; }
   a:focus-visible { outline: 3px solid #b88b4c; outline-offset: 5px; }
-  /* The capture, to try: hold the finder as in the app. */
-  .try-phone { position: relative; aspect-ratio: 1206 / 2622; border-radius: 32px; border: 5px solid #24231f; background: var(--bg); box-shadow: 0 18px 40px rgba(0,0,0,.18); overflow: hidden; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
-  .try-finder { --r: 26px; position: absolute; left: 4%; right: 4%; top: 8.5%; bottom: 12.5%; border-radius: var(--r); overflow: hidden; cursor: pointer; touch-action: none; outline: none; background: #2b2723; transition: transform .25s cubic-bezier(.3,.7,.3,1); }
-  .try-finder.down { transform: scale(.985); }
-  .try-finder:focus-visible { box-shadow: 0 0 0 3px #b88b4c; }
-  .try-finder img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; -webkit-user-drag: none; }
-  .try-band { --inset: 0px; --thick: 6px; --on: 0; --sweep: 0%; position: absolute; inset: var(--inset); border-radius: max(4px, calc(var(--r) - var(--inset))); padding: var(--thick); opacity: var(--on); pointer-events: none;
-    -webkit-backdrop-filter: blur(3px) saturate(1.7) brightness(1.1); backdrop-filter: blur(3px) saturate(1.7) brightness(1.1);
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,.5);
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
-  .try-band i { position: absolute; inset: 0; background: linear-gradient(115deg, transparent 38%, rgba(255,255,255,.9) 46%, transparent 54%, transparent 70%, rgba(255,255,255,.5) 75%, transparent 80%) no-repeat; background-size: 300% 300%; background-position: var(--sweep) var(--sweep); mix-blend-mode: plus-lighter; }
-  .try-gather { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; pointer-events: none; }
-  .try-dock { position: absolute; left: 50%; bottom: 3.2%; transform: translateX(-50%); width: 62%; height: 6.2%; border-radius: 999px; background: rgba(255,255,255,.75); box-shadow: 0 4px 16px rgba(0,0,0,.08); display: flex; align-items: center; justify-content: space-around; color: #1d1b18; }
-  @media (prefers-color-scheme: dark) { .try-dock { background: rgba(255,255,255,.12); color: #f4efe6; } }
-  .try-dock svg { width: 22%; height: 46%; }
-  .try-dock .stack { transition: transform .3s cubic-bezier(.3,1.6,.4,1); }
-  .try-dock .stack.got { transform: scale(1.25) translateY(-2px); }
-  .try-drop { position: absolute; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%; background: #1d1b18; opacity: 0; pointer-events: none; }
-  @media (prefers-color-scheme: dark) { .try-drop { background: #f4efe6; } }
   @media(max-width: 640px) {
     .screen-grid { grid-template-columns: 1fr; max-width: 300px; gap: 36px; }
     .screen-grid img, .screen-grid video { border-radius: 28px; border-width: 4px; }
@@ -114,27 +95,10 @@
   <section class="screens" aria-labelledby="screens-title">
     <h2 id="screens-title">Inside snipcam</h2>
     <div class="screen-grid">
-      <figure>
-        <div class="try-phone">
-          <div class="try-finder" id="try-finder" role="button" tabindex="0" aria-label="Hold to try a snip">
-            <img src="assets/moments/moment-03.jpg" alt="">
-            <div class="try-band"><i></i></div>
-            <img class="try-gather" src="assets/moments/moment-03.jpg" alt="">
-          </div>
-          <div class="try-dock" aria-hidden="true">
-            <svg class="stack" viewBox="0 0 26 24"><rect x="9.6" y="0.9" width="7" height="1.9" rx=".9" fill="currentColor" opacity=".45"/><rect x="7.6" y="4.1" width="11" height="1.9" rx=".9" fill="currentColor" opacity=".7"/><rect x="6.8" y="8.6" width="12.6" height="12" rx="2.8" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-            <svg viewBox="0 0 26 24"><rect x="2.5" y="1.5" width="21" height="21" rx="6.4" fill="currentColor"/></svg>
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          </div>
-          <span class="try-drop"></span>
-        </div>
-        <figcaption><strong>Make 2-second snips</strong><br>Hold the picture to try it</figcaption>
-      </figure>
       <figure><img src="assets/gallery-real-snips.jpg" width="640" height="1391" alt="snipcam Gallery with this week's day stacks, Life Feed, Favourites and Your Stacks" loading="lazy"><figcaption><strong>Stack your snips</strong></figcaption></figure>
-      <figure><video controls playsinline loop preload="metadata" poster="assets/playback-real-snips.jpg" width="720" height="1564" aria-label="snipcam replaying a stack of snips"><source src="assets/playback-real-snips.mp4" type="video/mp4"><a href="assets/playback-real-snips.mp4">Watch snipcam playback</a></video><figcaption><strong>Replay your stack</strong></figcaption></figure>
-      <figure><img src="assets/stacks-real-snips.jpg" width="640" height="1391" alt="A custom stack called Small things, with its strip of snips" loading="lazy"><figcaption><strong>Make your own stacks</strong></figcaption></figure>
-      <figure><img src="assets/feed-real-snips.jpg" width="640" height="1391" alt="The Life Feed playing snips in a shuffled order" loading="lazy"><figcaption><strong>Doomscroll your snips</strong></figcaption></figure>
       <figure><video autoplay muted playsinline loop preload="metadata" poster="assets/capture-real-snips.jpg" width="720" height="1564" aria-label="The snipcam capture animation: the frame sinks, a light runs round its glass rim, and the snip drops into the Stack tab"><source src="assets/capture-animation.mp4" type="video/mp4"></video><figcaption><strong>Capture in motion</strong></figcaption></figure>
+      <figure><video autoplay muted playsinline loop preload="metadata" poster="assets/playback-real-snips.jpg" width="720" height="1564" aria-label="snipcam replaying a stack of snips"><source src="assets/playback-real-snips.mp4" type="video/mp4"><a href="assets/playback-real-snips.mp4">Watch snipcam playback</a></video><figcaption><strong>Replay your stack</strong></figcaption></figure>
+      <figure><img src="assets/stacks-real-snips.jpg" width="640" height="1391" alt="A custom stack called Small things, with its strip of snips" loading="lazy"><figcaption><strong>Make your own stacks</strong></figcaption></figure>
     </div>
     <a class="cta" href="https://testflight.apple.com/join/RshC7Wny">Try SnipCam on TestFlight</a>
   </section>
@@ -224,107 +188,6 @@
     play();
   });
   mark.addEventListener("click", play);
-})();
-</script>
-<script>
-// The capture, as the app does it. Hold the finder: a band of glass forms on
-// its border and swells inward with the haptic's own curve, while a light streak slides across it. Hold
-// for the snip's three seconds and the picture gathers and falls into the
-// Stack tab, as in the app. Let go early and nothing is kept.
-(function () {
-  var finder = document.getElementById("try-finder");
-  if (!finder) return;
-  var phone = finder.parentElement;
-  var band = finder.querySelector(".try-band");
-  var gather = finder.querySelector(".try-gather");
-  var drop = phone.querySelector(".try-drop");
-  var stack = phone.querySelector(".try-dock .stack");
-  var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var HOLD = 3, holding = false, busy = false, start = 0, raf = 0;
-
-  function smooth(x) { x = Math.max(0, Math.min(1, x)); return x * x * (3 - 2 * x); }
-  // The recording haptic: 0.22, up to 0.68 at 45% of the swell, down to 0.16.
-  function swell(t) {
-    var L = Math.min(Math.max(HOLD * 0.42, 0.72), 1.15), pk = L * 0.45;
-    if (t <= 0) return 0.22;
-    if (t < pk) return 0.22 + 0.46 * t / pk;
-    if (t < L) return 0.68 - 0.52 * (t - pk) / (L - pk);
-    return 0.16;
-  }
-  function buzz(ms) { if (navigator.vibrate) navigator.vibrate(ms); }
-
-  function frame(now) {
-    var t = (now - start) / 1000, p = Math.min(t / HOLD, 1);
-    // The app's points, scaled to this finder's width.
-    var k = finder.clientWidth / 370;
-    var reach = 4 + 22 * (reduce ? 0.3 : swell(t - 0.15)) + 4 * smooth(p);
-    band.style.setProperty("--thick", ((5 + reach * 0.6) * k).toFixed(2) + "px");
-    band.style.setProperty("--on", smooth(t / 0.2).toFixed(3));
-    band.style.setProperty("--sweep", (reduce ? 50 : 100 - (t / 3.2 % 1) * 100).toFixed(1) + "%");
-    if (p >= 1) return release();
-    raf = requestAnimationFrame(frame);
-  }
-
-  function begin(e) {
-    if (holding || busy) return;
-    if (e && e.pointerId !== undefined) finder.setPointerCapture(e.pointerId);
-    holding = true;
-    finder.classList.add("down");
-    start = performance.now();
-    buzz(12);
-    raf = requestAnimationFrame(frame);
-  }
-  function end() {
-    if (!holding) return;
-    holding = false;
-    cancelAnimationFrame(raf);
-    finder.classList.remove("down");
-    band.animate([{ opacity: getComputedStyle(band).opacity }, { opacity: 0 }], { duration: 160, easing: "ease-out" });
-    band.style.setProperty("--on", "0");
-  }
-
-  // The snip is kept: the picture gathers toward the bottom of the finder
-  // with a soft edge and falls into the Stack tab as one drop.
-  function release() {
-    holding = false;
-    busy = true;
-    finder.classList.remove("down");
-    band.style.setProperty("--on", "0");
-    buzz([18, 40, 12]);
-    var f = finder.getBoundingClientRect(), ph = phone.getBoundingClientRect(), s = stack.getBoundingClientRect();
-    var exitX = f.width / 2 - f.width * 0.26, exitY = f.height - f.width * 0.08;
-    var ms = reduce ? 1 : 1;
-    gather.style.opacity = "1";
-    var mask = function (r) { return "radial-gradient(circle at " + exitX + "px " + exitY + "px, #000 " + Math.max(0, r - 26) + "px, transparent " + r + "px)"; };
-    var big = Math.hypot(f.width, f.height) * 1.1;
-    var g = gather.animate([
-      { WebkitMaskImage: mask(big), maskImage: mask(big) },
-      { WebkitMaskImage: mask(big), maskImage: mask(big), offset: 0.1 },
-      { WebkitMaskImage: mask(8), maskImage: mask(8) }
-    ], { duration: reduce ? 1 : 620 * ms, easing: "cubic-bezier(.4,0,.2,1)", fill: "forwards" });
-    g.onfinish = function () {
-      gather.style.opacity = "0";
-      var x0 = f.left - ph.left + exitX, y0 = f.top - ph.top + exitY;
-      var x1 = s.left - ph.left + s.width / 2, y1 = s.top - ph.top + s.height / 2;
-      var d = drop.animate([
-        { left: x0 + "px", top: y0 + "px", opacity: 1, transform: "scale(1)" },
-        { left: x1 + "px", top: y1 + "px", opacity: 1, transform: "scale(.7)", offset: 0.85 },
-        { left: x1 + "px", top: y1 + "px", opacity: 0, transform: "scale(.4)" }
-      ], { duration: reduce ? 1 : 360, easing: "cubic-bezier(.5,0,.3,1)" });
-      d.onfinish = function () {
-        stack.classList.add("got");
-        setTimeout(function () { stack.classList.remove("got"); busy = false; }, 320);
-      };
-    };
-  }
-
-  finder.addEventListener("pointerdown", function (e) { e.preventDefault(); begin(e); });
-  finder.addEventListener("pointerup", end);
-  finder.addEventListener("pointercancel", end);
-  finder.addEventListener("lostpointercapture", end);
-  finder.addEventListener("contextmenu", function (e) { e.preventDefault(); });
-  finder.addEventListener("keydown", function (e) { if ((e.key === " " || e.key === "Enter") && !e.repeat) { e.preventDefault(); begin(); } });
-  finder.addEventListener("keyup", function (e) { if (e.key === " " || e.key === "Enter") end(); });
 })();
 </script>
 </body>
