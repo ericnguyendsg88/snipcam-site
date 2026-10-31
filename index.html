@@ -58,14 +58,18 @@
   footer { display: flex; justify-content: center; gap: 22px; flex-wrap: wrap; padding: 22px; font-size: 14px; color: var(--muted); }
   footer a { color: inherit; }
   main { display: block; padding: 64px 22px 48px; }
-  .screens { max-width: 1040px; margin: 80px auto 0; }
+  .screens { max-width: 960px; margin: 80px auto 0; }
   .eyebrow { text-transform: uppercase; letter-spacing: .14em; font-size: 12px; font-weight: 600; }
   h2 { font-size: clamp(28px, 5vw, 40px); line-height: 1.15; letter-spacing: -.025em; margin: 12px 0; }
-  .screen-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 36px 24px; max-width: 920px; margin: 40px auto 0; }
-  figure { margin: 0; min-width: 0; flex: 0 0 calc((100% - 48px) / 3); }
-  .screen-grid img, .screen-grid video { display: block; width: 100%; height: auto; border-radius: 32px; box-shadow: 0 18px 40px rgba(0,0,0,.18); border: 5px solid #24231f; }
-  figcaption { font-size: 14px; color: var(--muted); margin: 22px 0 0; }
-  figcaption strong { color: var(--ink); font-size: 17px; }
+  /* One feature per row: the screen beside its own title and text, alternating sides. */
+  .features { display: grid; gap: 96px; margin: 56px 0 72px; text-align: left; }
+  .feature { display: grid; grid-template-columns: 300px minmax(0, 380px); gap: 72px; align-items: center; justify-content: center; }
+  .feature:nth-child(even) { grid-template-columns: minmax(0, 380px) 300px; }
+  .feature:nth-child(even) .shot { order: 2; }
+  .shot { min-width: 0; }
+  .shot img, .shot video { display: block; width: 100%; height: auto; border-radius: 32px; box-shadow: 0 18px 40px rgba(0,0,0,.18); border: 5px solid #24231f; }
+  .copy h3 { font-size: clamp(26px, 3.6vw, 34px); line-height: 1.12; letter-spacing: -.025em; margin: 0 0 14px; }
+  .copy p { color: var(--muted); font-size: 18px; line-height: 1.55; margin: 0; }
   a:focus-visible { outline: 3px solid #b88b4c; outline-offset: 5px; }
   .feedback { max-width: 520px; margin: 96px auto 0; text-align: left; }
   .feedback h2 { text-align: center; }
@@ -82,11 +86,13 @@
   .feedback .cta:disabled { opacity: .5; cursor: default; }
   .fb-note { text-align: center; font-size: 15px; margin-top: 14px; min-height: 1.5em; }
   .fb-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
-  @media(max-width: 640px) {
-    .screen-grid { max-width: 300px; gap: 36px; }
-    figure { flex-basis: 100%; }
-    .screen-grid img, .screen-grid video { border-radius: 28px; border-width: 4px; }
-    figcaption { margin-top: 14px; }
+  @media(max-width: 760px) {
+    .features { gap: 72px; margin: 40px 0 56px; }
+    .feature, .feature:nth-child(even) { grid-template-columns: minmax(0, 280px); gap: 28px; }
+    .feature:nth-child(even) .shot { order: 0; }
+    .shot img, .shot video { border-radius: 28px; border-width: 4px; }
+    .copy { text-align: center; }
+    .copy p { font-size: 17px; }
     .screens { margin-top: 64px; }
   }
 </style>
@@ -110,12 +116,27 @@
   </div>
   <section class="screens" aria-labelledby="screens-title">
     <h2 id="screens-title">Inside snipcam</h2>
-    <div class="screen-grid">
-      <figure><img src="assets/gallery-real-snips.jpg?v=20261031" width="640" height="1391" alt="snipcam Gallery with this week as a centred day stack, the day strip under it, Life Feed and Favourites" loading="lazy"><figcaption><strong>Stack your snips</strong></figcaption></figure>
-      <figure><video autoplay muted playsinline loop preload="metadata" poster="assets/capture-real-snips.jpg" width="720" height="1564" aria-label="The snipcam capture animation: the frame sinks, a light runs round its glass rim, and the snip drops into the Stack tab"><source src="assets/capture-animation.mp4?v=20261031" type="video/mp4"></video><figcaption><strong>Capture in motion</strong></figcaption></figure>
-      <figure><video autoplay muted playsinline loop preload="metadata" poster="assets/playback-real-snips.jpg?v=20261031" width="720" height="1564" aria-label="snipcam replaying a stack of snips"><source src="assets/playback-real-snips.mp4?v=20261031" type="video/mp4"><a href="assets/playback-real-snips.mp4?v=20261031">Watch snipcam playback</a></video><figcaption><strong>Replay your stack</strong></figcaption></figure>
-      <figure><img src="assets/feed-real-snips.jpg?v=20261031" width="640" height="1391" alt="The Life Feed scrolling from one snip to the next" loading="lazy"><figcaption><strong>Doomscroll your snips</strong></figcaption></figure>
-      <figure><img src="assets/layout-real-snips.jpg" width="640" height="1391" alt="Three snips of a day arranged as a collage layout" loading="lazy"><figcaption><strong>Make a collage</strong></figcaption></figure>
+    <div class="features">
+      <div class="feature">
+        <div class="shot"><video autoplay muted playsinline loop preload="metadata" poster="assets/capture-real-snips.jpg" width="720" height="1564" aria-label="The snipcam capture animation: the frame sinks, a light runs round its glass rim, and the snip drops into the Stack tab"><source src="assets/capture-animation.mp4?v=20261031" type="video/mp4"></video></div>
+        <div class="copy"><h3>Capture in motion</h3><p>Your 2 second moment, kept. Hold the viewfinder for two seconds, or three, and the frame sinks under your finger, a light runs round its glass rim, and the snip drops into your stack.</p></div>
+      </div>
+      <div class="feature">
+        <div class="shot"><img src="assets/gallery-real-snips.jpg?v=20261031" width="640" height="1391" alt="snipcam Gallery with this week as a centred day stack, the day strip under it, Life Feed and Favourites" loading="lazy"></div>
+        <div class="copy"><h3>Stack your snips</h3><p>Each day collects its snips into a stack. This week sits front and centre with a day strip under it, and Life Feed and Favourites are one tap away.</p></div>
+      </div>
+      <div class="feature">
+        <div class="shot"><video autoplay muted playsinline loop preload="metadata" poster="assets/playback-real-snips.jpg?v=20261031" width="720" height="1564" aria-label="snipcam replaying a stack of snips"><source src="assets/playback-real-snips.mp4?v=20261031" type="video/mp4"><a href="assets/playback-real-snips.mp4?v=20261031">Watch snipcam playback</a></video></div>
+        <div class="copy"><h3>Replay your stack</h3><p>Open a day and its snips play back to back, with a progress bar and a strip of the day's snips along the bottom.</p></div>
+      </div>
+      <div class="feature">
+        <div class="shot"><img src="assets/feed-real-snips.jpg?v=20261031" width="640" height="1391" alt="The Life Feed playing one snip full screen" loading="lazy"></div>
+        <div class="copy"><h3>Doomscroll your snips</h3><p>Life Feed shuffles your own snips into one full-screen scroll. Swipe from one moment to the next.</p></div>
+      </div>
+      <div class="feature">
+        <div class="shot"><img src="assets/layout-real-snips.jpg" width="640" height="1391" alt="Three snips of a day arranged as a collage layout" loading="lazy"></div>
+        <div class="copy"><h3>Make a collage</h3><p>Pick snips from a day and arrange them in a layout of rows or a grid.</p></div>
+      </div>
     </div>
     <a class="cta" href="https://testflight.apple.com/join/RshC7Wny">Try SnipCam on TestFlight</a>
   </section>
