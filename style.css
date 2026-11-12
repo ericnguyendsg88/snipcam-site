@@ -5,11 +5,11 @@
   --feather: 22px;
   --edge-mask: linear-gradient(to right, #000, transparent var(--feather), transparent calc(100% - var(--feather)), #000),
                linear-gradient(to bottom, #000, transparent var(--feather), transparent calc(100% - var(--feather)), #000);
-  --paper: #f6f1e8;
+  --paper: #f5f4f1;
   --paper-deep: #efe8dc;
   --ink: #211d18;
-  --ink-soft: #6c655b;
-  --ink-faint: #a39b8f;
+  --ink-soft: #746c62;
+  --ink-faint: #a0988d;
   --line: #e2d9cb;
   --card-dark: #2e2a25;
   --gold: #c99a52;
@@ -22,7 +22,8 @@
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
-  background: var(--paper);
+  /* The app's paper: its colour under the same fine grain. */
+  background: url("assets/paper-grain.png") 0 0 / 96px 96px repeat, var(--paper);
   color: var(--ink);
   font: 17px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
