@@ -7,6 +7,7 @@
 <meta name="description" content="Capture two- or three-second moments, then revisit them in Day Stacks, Life Feed, and your own stacks. Try snipcam on TestFlight for iPhone.">
 <meta name="theme-color" content="#f5f4f1">
 <link rel="icon" href="assets/icon.png?v=20261112">
+<script>document.documentElement.classList.add("js")</script>
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=20261112">
 <style>
   :root { --bg: #f5f4f1; --ink: #211d18; --muted: #746c62; --cta: #211d18; --grain: url("assets/paper-grain.png"); color-scheme: light; }
@@ -17,10 +18,20 @@
   body { margin: 0; background: var(--grain) 0 0 / 96px 96px repeat, var(--bg); color: var(--ink); font: 400 17px/1.5 -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; display: flex; flex-direction: column; }
   main { flex: 1; display: grid; place-items: center; text-align: center; padding: 48px 22px; }
   .app-icon { width: 112px; height: 112px; border-radius: 26px; margin: 0 auto 26px; box-shadow: 0 10px 30px rgba(0, 0, 0, .12); display: block; }
-  /* The app icon itself, rising in once. */
-  .mark { display: block; width: 112px; height: 112px; margin: 0 auto 26px; border-radius: 22.37%; box-shadow: 0 7px 14px rgba(0, 0, 0, .12); animation: icon-in .6s cubic-bezier(.2, .8, .2, 1) both; }
-  @keyframes icon-in { from { opacity: 0; transform: translateY(8px) scale(.96); } }
-  @media (prefers-reduced-motion: reduce) { .mark { animation: none; } }
+  /* The app's loading icon, on the page's own paper: the frame comes up, the four
+     corners fade in out of a blur from the top left round clockwise, then the
+     lettering is written in, s-n-i-p-c-a-m on one pen. */
+  .mark { position: relative; width: 112px; height: 112px; margin: 0 auto 26px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .mark img { position: absolute; inset: 0; width: 100%; height: 100%; }
+  @media (prefers-color-scheme: dark) { .mark { filter: invert(.92); } }
+  .mark.play .frame { animation: frame-in .22s ease-out both; }
+  .mark.play .corner { animation: corner-in .38s cubic-bezier(.3, .05, .2, 1) calc(.05s + var(--i) * .11s) both; }
+  .mark.play .letter { animation: write var(--dur) linear var(--delay) both; }
+  @keyframes frame-in { from { opacity: 0; filter: blur(4px); } }
+  @keyframes corner-in { from { opacity: 0; filter: blur(7px); } }
+  @keyframes write { from { clip-path: inset(0 calc(100% - var(--l)) 0 0); } }
+  html.js .mark:not(.play) img { opacity: 0; }
+  @media (prefers-reduced-motion: reduce) { .mark img { animation: none !important; } }
   h1 { font-size: clamp(40px, 8vw, 64px); line-height: 1.05; letter-spacing: -.03em; margin: 0; font-weight: 700; }
   p { color: var(--muted); font-size: 19px; margin: 14px 0 0; }
   .cta { display: inline-block; margin-top: 32px; padding: 15px 28px; border-radius: 999px; background: var(--cta); color: var(--bg); text-decoration: none; font-weight: 600; font-size: 17px; }
@@ -71,7 +82,20 @@
 <body>
 <main>
   <div>
-    <img class="mark" src="assets/icon.png?v=20261112" width="112" height="112" alt="snipcam app icon">
+    <div class="mark" role="img" aria-label="snipcam app icon" title="Replay">
+      <img class="frame" src="assets/mark/frame.png" alt="">
+      <img class="corner" style="--i:0" src="assets/mark/corner-0.png" alt="">
+      <img class="corner" style="--i:1" src="assets/mark/corner-1.png" alt="">
+      <img class="corner" style="--i:2" src="assets/mark/corner-2.png" alt="">
+      <img class="corner" style="--i:3" src="assets/mark/corner-3.png" alt="">
+      <img class="letter" style="--l:20.8%" src="assets/mark/letter-0.png" alt="">
+      <img class="letter" style="--l:36.9%" src="assets/mark/letter-1.png" alt="">
+      <img class="letter" style="--l:54.2%" src="assets/mark/letter-2.png" alt="">
+      <img class="letter" style="--l:60.9%" src="assets/mark/letter-3.png" alt="">
+      <img class="letter" style="--l:20.2%" src="assets/mark/letter-4.png" alt="">
+      <img class="letter" style="--l:36.4%" src="assets/mark/letter-5.png" alt="">
+      <img class="letter" style="--l:53.6%" src="assets/mark/letter-6.png" alt="">
+    </div>
     <h1>2 or 3 seconds.<br>That's enough.</h1>
     <p>A camera for the small but memorable moments.</p>
     <a class="cta" href="https://testflight.apple.com/join/RshC7Wny">Join the TestFlight beta</a>
@@ -132,6 +156,46 @@
   <a href="mailto:ericnguyendsg@gmail.com">Support</a>
 </footer>
 
+<script>
+(function () {
+  // The app's pen: each letter starts 0.72 of a letter after the last, and one
+  // eased curve runs the whole word after a 0.4 s pause, 0.17 s per letter.
+  var mark = document.querySelector(".mark");
+  if (!mark) return;
+  var SPACING = 0.72, RATE = 0.17, DELAY = 0.4;
+  var letters = mark.querySelectorAll(".letter");
+  var end = (letters.length - 1) * SPACING + 1, T = RATE * end;
+  var ease = bezier(0.42, 0.05, 0.2, 1);
+  function timeAt(p) {
+    var lo = 0, hi = 1;
+    for (var k = 0; k < 30; k++) { var mid = (lo + hi) / 2; if (ease(mid) < p) lo = mid; else hi = mid; }
+    return (lo + hi) / 2;
+  }
+  function bezier(x1, y1, x2, y2) {
+    function c(a, b, t) { return 3 * a * t * (1 - t) * (1 - t) + 3 * b * t * t * (1 - t) + t * t * t; }
+    return function (x) {
+      var lo = 0, hi = 1;
+      for (var k = 0; k < 30; k++) { var mid = (lo + hi) / 2; if (c(x1, x2, mid) < x) lo = mid; else hi = mid; }
+      return c(y1, y2, (lo + hi) / 2);
+    };
+  }
+  letters.forEach(function (el, n) {
+    var start = timeAt(n * SPACING / end), stop = timeAt(Math.min(n * SPACING + 1, end) / end);
+    el.style.setProperty("--delay", (DELAY + start * T).toFixed(3) + "s");
+    el.style.setProperty("--dur", Math.max((stop - start) * T, 0.05).toFixed(3) + "s");
+  });
+  function play() {
+    mark.classList.remove("play");
+    void mark.offsetWidth;
+    mark.classList.add("play");
+  }
+  var imgs = Array.prototype.slice.call(mark.querySelectorAll("img"));
+  Promise.all(imgs.map(function (i) {
+    return i.complete ? null : new Promise(function (done) { i.onload = i.onerror = done; });
+  })).then(play);
+  mark.addEventListener("click", play);
+})();
+</script>
 <script>
 (function () {
   var form = document.getElementById("fb-form");
