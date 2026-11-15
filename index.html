@@ -105,7 +105,7 @@
     <h2 id="screens-title">Inside snipcam</h2>
     <div class="features">
       <div class="feature">
-        <div class="shot"><img src="assets/screen-capture.jpg?v=20261112" width="720" height="1564" alt="The snipcam camera, a beach with two stone stacks in the finder"></div>
+        <div class="shot"><video muted playsinline loop preload="none" poster="assets/capture-animation-poster.jpg?v=20261115" data-src="assets/capture-animation.mp4?v=20261115" width="720" height="1564" aria-label="A snip captured on a beach: the finder sinks and the snip drops into the Stack tab"></video></div>
         <div class="copy"><h3>Capture in motion</h3><p>Hold for two seconds. It drops into your stack.</p></div>
       </div>
       <div class="feature">
@@ -121,7 +121,7 @@
         <div class="copy"><h3>Make your own stacks</h3><p>Group snips by trip, person or season.</p></div>
       </div>
       <div class="feature">
-        <div class="shot"><img src="assets/screen-feed.jpg?v=20261112" width="720" height="1564" alt="The Life Feed mid-swipe, one snip giving way to the next" loading="lazy"></div>
+        <div class="shot"><video muted playsinline loop preload="none" poster="assets/feed-real-snips-poster.jpg?v=20261115" data-src="assets/feed-real-snips.mp4?v=20261115" width="720" height="1564" aria-label="The Life Feed swiping from one snip to the next"></video></div>
         <div class="copy"><h3>Doomscroll your snips</h3><p>Your snips, shuffled into one scroll.</p></div>
       </div>
       <div class="feature">
@@ -213,6 +213,28 @@
       .catch(function () { note.innerHTML = 'Didn\u2019t send. <a href="mailto:ericnguyendsg@gmail.com">Email it instead</a>.'; })
       .then(function () { btn.disabled = false; });
   });
+})();
+</script>
+<script>
+// Screen videos play from the start as each one scrolls into view and pause once it leaves.
+(function () {
+  var videos = document.querySelectorAll(".shot video[data-src]");
+  if (!videos.length || !("IntersectionObserver" in window)) return;
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      var v = e.target;
+      if (e.isIntersecting) {
+        if (!v.src) { v.src = v.dataset.src; v.preload = "auto"; }
+        else v.currentTime = 0;
+        var p = v.play();
+        if (p && p.catch) p.catch(function () {});
+      } else if (v.src) {
+        v.pause();
+      }
+    });
+  }, { threshold: 0.55 });
+  videos.forEach(function (v) { io.observe(v); });
 })();
 </script>
 </body>
