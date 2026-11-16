@@ -8,6 +8,39 @@
 <meta name="theme-color" content="#f5f4f1">
 <link rel="icon" href="assets/icon.png">
 <link rel="stylesheet" href="style.css">
+<script>
+// Visit counts through PostHog: no cookies or storage (persistence "memory"), no autocapture, no recordings.
+(function () {
+  var ph = window.posthog = window.posthog || [];
+  if (ph.__SV) return;
+  ph._i = [];
+  ph.init = function (token, config, name) { ph._i.push([token, config, name]); };
+  ["capture", "register"].forEach(function (m) {
+    ph[m] = function () { ph.push([m].concat(Array.prototype.slice.call(arguments))); };
+  });
+  ph.__SV = 1;
+  var s = document.createElement("script");
+  s.async = true; s.crossOrigin = "anonymous";
+  s.src = "https://us-assets.i.posthog.com/static/array.js";
+  document.head.appendChild(s);
+  ph.init("phc_wq2qZ8YMt24DhkfbBrSBMiaJSYX29E5SfvphjAq6dkmb", {
+    api_host: "https://us.i.posthog.com",
+    persistence: "memory",
+    autocapture: false,
+    capture_pageview: true,
+    capture_pageleave: true,
+    disable_session_recording: true,
+    person_profiles: "identified_only"
+  });
+  ph.register({ site: "snipcam" });
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest('a[href*="testflight.apple.com"]');
+    if (!a) return;
+    var all = Array.prototype.slice.call(document.querySelectorAll('a[href*="testflight.apple.com"]'));
+    ph.capture("testflight_click", { placement: all.indexOf(a) === 0 ? "hero" : "bottom", page: location.pathname.split("/").pop() || "index" });
+  });
+})();
+</script>
 </head>
 <body>
 
@@ -22,7 +55,7 @@
 
 <main class="policy">
   <h1>Privacy Policy</h1>
-  <p class="updated">Last updated 15 November 2026</p>
+  <p class="updated">Last updated 16 November 2026</p>
 
   <div class="summary">
     <b>The short version</b>
@@ -79,7 +112,7 @@
   <p>We keep support emails as long as needed to answer you and follow up. Analytics data is kept according to our PostHog project’s retention settings. We do not sell your personal data.</p>
 
   <h2>This website</h2>
-  <p>This website uses no analytics, advertising cookies or trackers. Our hosting provider, GitHub Pages, may process standard access logs to deliver and secure the site.</p>
+  <p>This website counts visits with PostHog, the same analytics service the app uses. It records which page was opened, how long it stayed open, the referring site, browser and device type, and clicks on the TestFlight link. PostHog estimates an approximate location, such as country and city, from your IP address. The site sets no cookies and stores nothing on your device, so visits are not linked to each other or to you. We use no advertising cookies or trackers. Our hosting provider, GitHub Pages, may process standard access logs to deliver and secure the site.</p>
 
   <h2>Children</h2>
   <p>snipcam is not directed at children under 13, and we do not knowingly collect personal information from them.</p>

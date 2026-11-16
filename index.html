@@ -78,6 +78,39 @@
     .screens { margin-top: 64px; }
   }
 </style>
+<script>
+// Visit counts through PostHog: no cookies or storage (persistence "memory"), no autocapture, no recordings.
+(function () {
+  var ph = window.posthog = window.posthog || [];
+  if (ph.__SV) return;
+  ph._i = [];
+  ph.init = function (token, config, name) { ph._i.push([token, config, name]); };
+  ["capture", "register"].forEach(function (m) {
+    ph[m] = function () { ph.push([m].concat(Array.prototype.slice.call(arguments))); };
+  });
+  ph.__SV = 1;
+  var s = document.createElement("script");
+  s.async = true; s.crossOrigin = "anonymous";
+  s.src = "https://us-assets.i.posthog.com/static/array.js";
+  document.head.appendChild(s);
+  ph.init("phc_wq2qZ8YMt24DhkfbBrSBMiaJSYX29E5SfvphjAq6dkmb", {
+    api_host: "https://us.i.posthog.com",
+    persistence: "memory",
+    autocapture: false,
+    capture_pageview: true,
+    capture_pageleave: true,
+    disable_session_recording: true,
+    person_profiles: "identified_only"
+  });
+  ph.register({ site: "snipcam" });
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest('a[href*="testflight.apple.com"]');
+    if (!a) return;
+    var all = Array.prototype.slice.call(document.querySelectorAll('a[href*="testflight.apple.com"]'));
+    ph.capture("testflight_click", { placement: all.indexOf(a) === 0 ? "hero" : "bottom", page: location.pathname.split("/").pop() || "index" });
+  });
+})();
+</script>
 </head>
 <body>
 <main>
@@ -209,7 +242,7 @@
     var data = new FormData(form);
     fetch("https://formsubmit.co/ajax/ericnguyendsg@gmail.com", { method: "POST", headers: { Accept: "application/json" }, body: data })
       .then(function (r) { if (!r.ok) throw 0; return r.json(); })
-      .then(function () { form.reset(); note.textContent = "Got it. Thank you."; })
+      .then(function () { form.reset(); note.textContent = "Got it. Thank you."; if (window.posthog) posthog.capture("feedback_sent"); })
       .catch(function () { note.innerHTML = 'Didn\u2019t send. <a href="mailto:ericnguyendsg@gmail.com">Email it instead</a>.'; })
       .then(function () { btn.disabled = false; });
   });
