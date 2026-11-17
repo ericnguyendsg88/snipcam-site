@@ -104,10 +104,12 @@
   });
   ph.register({ site: "snipcam" });
   document.addEventListener("click", function (e) {
-    var a = e.target.closest && e.target.closest('a[href*="testflight.apple.com"]');
+    var a = e.target.closest && e.target.closest("a.cta");
     if (!a) return;
-    var all = Array.prototype.slice.call(document.querySelectorAll('a[href*="testflight.apple.com"]'));
-    ph.capture("testflight_click", { placement: all.indexOf(a) === 0 ? "hero" : "bottom", page: location.pathname.split("/").pop() || "index" });
+    var store = /apps\.apple\.com/.test(a.href);
+    if (!store && !/testflight\.apple\.com/.test(a.href)) return;
+    var all = Array.prototype.slice.call(document.querySelectorAll("a.cta"));
+    ph.capture(store ? "appstore_click" : "testflight_click", { placement: all.indexOf(a) === 0 ? "hero" : "bottom", page: location.pathname.split("/").pop() || "index" });
   });
 })();
 </script>
@@ -131,8 +133,8 @@
     </div>
     <h1>2 or 3 seconds.<br>That's enough.</h1>
     <p>A camera for the small but memorable moments.</p>
-    <a class="cta" href="https://testflight.apple.com/join/RshC7Wny">Join the TestFlight beta</a>
-    <p class="fine">For iPhone · Free beta through Apple's TestFlight app</p>
+    <a class="cta" href="https://testflight.apple.com/join/RshC7Wny" data-store="Get snipcam on the App Store">Join the TestFlight beta</a>
+    <p class="fine" data-store-fine>For iPhone · Free beta through Apple's TestFlight app</p>
   </div>
   <section class="screens" aria-labelledby="screens-title">
     <h2 id="screens-title">Inside snipcam</h2>
@@ -162,7 +164,7 @@
         <div class="copy"><h3>Make a collage</h3><p>Arrange snips in rows or a grid.</p></div>
       </div>
     </div>
-    <a class="cta" href="https://testflight.apple.com/join/RshC7Wny">Try SnipCam on TestFlight</a>
+    <a class="cta" href="https://testflight.apple.com/join/RshC7Wny" data-store="Get snipcam">Try SnipCam on TestFlight</a>
   </section>
   <section class="feedback" aria-labelledby="fb-title">
     <h2 id="fb-title" style="text-align:center">Tell us what to build</h2>
@@ -268,6 +270,26 @@
     });
   }, { threshold: 0.55 });
   videos.forEach(function (v) { io.observe(v); });
+})();
+</script>
+<script>
+// The CTAs point to TestFlight until the App Store listing is live. Apple's
+// lookup API returns the app only once it is on sale, so the page switches by
+// itself on release day.
+(function () {
+  var links = document.querySelectorAll("a[data-store]");
+  if (!links.length || !window.fetch) return;
+  fetch("https://itunes.apple.com/lookup?id=6788578899")
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      var app = d && d.resultCount > 0 && d.results[0];
+      if (!app) return;
+      var url = "https://apps.apple.com/app/id6788578899";
+      links.forEach(function (a) { a.href = url; a.textContent = a.dataset.store; });
+      var fine = document.querySelector("[data-store-fine]");
+      if (fine) fine.textContent = app.price === 0 ? "For iPhone \u00b7 Free on the App Store" : "For iPhone";
+    })
+    .catch(function () {});
 })();
 </script>
 </body>
