@@ -44,6 +44,16 @@
   .cta { display: inline-block; margin-top: 32px; padding: 15px 28px; border-radius: 999px; background: var(--cta); color: var(--bg); text-decoration: none; font-weight: 600; font-size: 17px; }
   .cta:hover { opacity: .88; }
   .fine { font-size: 14px; margin-top: 16px; }
+  /* The waitlist leads the page: an email field and its button on one line. */
+  .waitlist { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; max-width: 440px; margin: 32px auto 0; }
+  .waitlist input[type=email] { flex: 1 1 220px; min-width: 0; font: inherit; font-size: 16px; color: var(--ink); background: color-mix(in srgb, var(--ink) 6%, transparent); border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); border-radius: 999px; padding: 14px 20px; }
+  .waitlist input::placeholder { color: var(--muted); }
+  .waitlist input:focus-visible { outline: 3px solid #b88b4c; outline-offset: 2px; }
+  .waitlist .cta { margin: 0; border: 0; font: inherit; font-weight: 600; font-size: 17px; cursor: pointer; }
+  .waitlist .cta:disabled { opacity: .5; cursor: default; }
+  .waitlist-note { font-size: 15px; margin-top: 12px; min-height: 1.4em; }
+  .beta-link { display: inline-block; margin-top: 10px; font-size: 15px; color: var(--muted); }
+  @media (max-width: 480px) { .waitlist .cta { flex: 1 1 100%; } }
   footer { display: flex; justify-content: center; gap: 22px; flex-wrap: wrap; padding: 22px; font-size: 14px; color: var(--muted); }
   footer a { color: inherit; }
   main { display: block; padding: 64px 22px 48px; }
@@ -143,8 +153,16 @@
     </div>
     <h1>2 or 3 seconds.<br>That's enough.</h1>
     <p>A camera for the small but memorable moments.</p>
-    <a class="cta" href="https://testflight.apple.com/join/RshC7Wny" data-store="Get snipcam on the App Store">Join the TestFlight beta</a>
-    <p class="fine" data-store-fine>For iPhone · Free beta through Apple's TestFlight app</p>
+    <form class="waitlist" id="waitlist" action="https://formsubmit.co/ericnguyendsg@gmail.com" method="POST">
+      <input type="email" name="email" required autocomplete="email" aria-label="Email" placeholder="you@email.com">
+      <input type="text" name="_honey" class="fb-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <input type="hidden" name="_subject" value="snipcam waitlist">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="false">
+      <button class="cta" type="submit">Join the waitlist</button>
+    </form>
+    <p class="waitlist-note" id="waitlist-note" role="status" aria-live="polite"></p>
+    <a class="beta-link" href="https://testflight.apple.com/join/RshC7Wny" data-store="Get snipcam on the App Store">or try the TestFlight beta</a>
   </div>
   <section class="screens" aria-labelledby="screens-title">
     <h2 id="screens-title">Inside snipcam</h2>
@@ -239,6 +257,25 @@
     return i.complete ? null : new Promise(function (done) { i.onload = i.onerror = done; });
   })).then(play);
   mark.addEventListener("click", play);
+})();
+</script>
+<script>
+// The waitlist: the address goes to the support inbox, and the form says so.
+(function () {
+  var form = document.getElementById("waitlist");
+  if (!form) return;
+  var note = document.getElementById("waitlist-note");
+  var btn = form.querySelector("button");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    btn.disabled = true;
+    note.textContent = "";
+    fetch("https://formsubmit.co/ajax/ericnguyendsg@gmail.com", { method: "POST", headers: { Accept: "application/json" }, body: new FormData(form) })
+      .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+      .then(function () { form.reset(); note.textContent = "You\u2019re on the list."; if (window.posthog) posthog.capture("waitlist_joined"); })
+      .catch(function () { note.innerHTML = 'Didn\u2019t go through. <a href="mailto:ericnguyendsg@gmail.com?subject=snipcam%20waitlist">Email us instead</a>.'; })
+      .then(function () { btn.disabled = false; });
+  });
 })();
 </script>
 <script>
