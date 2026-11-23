@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>snipcam — 2 or 3 seconds. That's enough.</title>
-<meta name="description" content="Capture two- or three-second moments, then revisit them in Day Stacks, Life Feed, and your own stacks. Try snipcam on TestFlight for iPhone.">
+<title>snipcam — A new way to capture your moments</title>
+<meta name="description" content="A new way to capture your moments, then relive them in day stacks, Life Feed and your own stacks. Join the snipcam waitlist.">
 <meta name="theme-color" content="#f5f4f1">
 <link rel="icon" href="assets/icon.png?v=20261123">
 <script>document.documentElement.classList.add("js")</script>
@@ -39,7 +39,7 @@
   @keyframes write { from { clip-path: inset(0 calc(100% - var(--l)) 0 0); } }
   html.js .mark:not(.play) img, html.js .mark:not(.play) .lens, html.js .mark:not(.play) .tile { opacity: 0; }
   @media (prefers-reduced-motion: reduce) { .mark * { animation: none !important; } }
-  h1 { font-size: clamp(40px, 8vw, 64px); line-height: 1.05; letter-spacing: -.03em; margin: 0; font-weight: 700; }
+  h1 { font-size: clamp(40px, 8vw, 64px); line-height: 1.05; letter-spacing: -.03em; margin: 0 auto; max-width: 13em; font-weight: 700; text-wrap: balance; }
   p { color: var(--muted); font-size: 19px; margin: 14px 0 0; }
   .cta { display: inline-block; margin-top: 32px; padding: 15px 28px; border-radius: 999px; background: var(--cta); color: var(--bg); text-decoration: none; font-weight: 600; font-size: 17px; }
   .cta:hover { opacity: .88; }
@@ -197,7 +197,7 @@
       <img class="letter" style="--l:55.0%" src="assets/mark/letter-6.png" alt="">
       <img class="grain" src="assets/mark/grain.png" alt="">
     </div>
-    <h1>2 or 3 seconds.<br>That's enough.</h1>
+    <h1>A new way to capture your moments.</h1>
     <p>A camera for the small but memorable moments.</p>
     <form class="waitlist" id="waitlist" action="https://snipcam-forms.vercel.app/api/waitlist" method="POST">
       <input type="email" name="email" required autocomplete="email" aria-label="Email" placeholder="you@email.com">
