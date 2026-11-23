@@ -55,7 +55,10 @@
   .waitlist .cta { display: inline-flex; align-items: center; justify-content: center; gap: 9px; }
   .as-icon { width: 22px; height: 22px; flex: none; border-radius: 5.6px; box-shadow: 0 1px 3px rgba(0,0,0,.18); }
   .waitlist-note { font-size: 15px; margin-top: 12px; min-height: 1.4em; }
-  .beta-link { display: inline-block; margin-top: 10px; font-size: 15px; color: var(--muted); }
+  /* The beta, second to the waitlist: an outlined pill with the App Store icon. */
+  .beta-link { display: inline-flex; align-items: center; gap: 9px; margin-top: 14px; padding: 10px 18px 10px 12px; border-radius: 999px; font-size: 16px; font-weight: 600; color: var(--ink); text-decoration: none; border: 1.5px solid color-mix(in srgb, var(--ink) 22%, transparent); transition: background .15s ease, transform .15s ease; }
+  .beta-link:hover { background: color-mix(in srgb, var(--ink) 6%, transparent); }
+  .beta-link:active { transform: scale(.97); }
   @media (max-width: 480px) { .waitlist .cta { flex: 1 1 100%; } }
   /* After joining: the form gives way to a small card that pops in with a few sparkles. */
   .joined { position: relative; max-width: 420px; margin: 32px auto 0; padding: 28px 24px 26px; border-radius: 28px; background: color-mix(in srgb, var(--ink) 5%, transparent); border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent); text-align: center; }
@@ -196,7 +199,7 @@
       <h3>You’re on the list</h3>
       <p>Thanks for joining. We’ll email you when snipcam opens up, and keep you posted along the way.</p>
     </div>
-    <a class="beta-link" href="https://testflight.apple.com/join/RshC7Wny" data-store="Get snipcam on the App Store">or try the TestFlight beta</a>
+    <a class="beta-link" href="https://testflight.apple.com/join/RshC7Wny" data-store="Get snipcam on the App Store"><svg class="as-icon" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="asg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1bc0fa"/><stop offset="1" stop-color="#1a74f0"/></linearGradient></defs><rect width="24" height="24" rx="5.6" fill="url(#asg2)"/><path d="M9.1 16.9 13.4 9.4M14.9 16.9 10.6 9.4M7.6 14.1h8.8M12.1 7.1l.9 1.5" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/></svg><span class="label">Try the TestFlight beta</span></a>
   </div>
   <section class="screens" aria-labelledby="screens-title">
     <h2 id="screens-title">Inside snipcam</h2>
@@ -412,7 +415,11 @@ function snipcamSend(path, form) {
       var app = d && d.resultCount > 0 && d.results[0];
       if (!app) return;
       var url = "https://apps.apple.com/app/id6788578899";
-      links.forEach(function (a) { a.href = url; a.textContent = a.dataset.store; });
+      links.forEach(function (a) {
+        a.href = url;
+        // Only the words change; an icon beside them stays.
+        (a.querySelector(".label") || a).textContent = a.dataset.store;
+      });
       var fine = document.querySelector("[data-store-fine]");
       if (fine) fine.textContent = app.price === 0 ? "For iPhone \u00b7 Free on the App Store" : "For iPhone";
     })
