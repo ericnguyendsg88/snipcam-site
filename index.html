@@ -153,12 +153,10 @@
     </div>
     <h1>2 or 3 seconds.<br>That's enough.</h1>
     <p>A camera for the small but memorable moments.</p>
-    <form class="waitlist" id="waitlist" action="https://formsubmit.co/ericnguyendsg@gmail.com" method="POST">
+    <form class="waitlist" id="waitlist" action="https://snipcam-forms.vercel.app/api/waitlist" method="POST">
       <input type="email" name="email" required autocomplete="email" aria-label="Email" placeholder="you@email.com">
       <input type="text" name="_honey" class="fb-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <input type="hidden" name="_subject" value="snipcam waitlist">
-      <input type="hidden" name="_template" value="table">
-      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="source" value="hero">
       <button class="cta" type="submit">Join the waitlist</button>
     </form>
     <p class="waitlist-note" id="waitlist-note" role="status" aria-live="polite"></p>
@@ -196,7 +194,7 @@
   </section>
   <section class="feedback" aria-labelledby="fb-title">
     <h2 id="fb-title" style="text-align:center">Tell us what to build</h2>
-    <form id="fb-form" action="https://formsubmit.co/ericnguyendsg@gmail.com" method="POST">
+    <form id="fb-form" action="https://snipcam-forms.vercel.app/api/feedback" method="POST">
       <div class="fb-kind" role="radiogroup" aria-label="Type">
         <label><input type="radio" name="kind" value="Feature idea" checked>Feature idea</label>
         <label><input type="radio" name="kind" value="Feedback">Feedback</label>
@@ -204,9 +202,6 @@
       <textarea name="message" required maxlength="2000" aria-label="Your message" placeholder="What should snipcam do?"></textarea>
       <input type="email" name="email" autocomplete="email" aria-label="Email (optional)" placeholder="Email (optional)">
       <input type="text" name="_honey" class="fb-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <input type="hidden" name="_subject" value="snipcam landing feedback">
-      <input type="hidden" name="_template" value="table">
-      <input type="hidden" name="_captcha" value="false">
       <button class="cta" type="submit">Send</button>
       <p class="fb-note" id="fb-note" role="status" aria-live="polite"></p>
     </form>
@@ -260,7 +255,15 @@
 })();
 </script>
 <script>
-// The waitlist: the address goes to the support inbox, and the form says so.
+// Both forms post to snipcam's own form service, and give up after 12 seconds.
+function snipcamSend(path, form) {
+  var ctrl = "AbortController" in window ? new AbortController() : null;
+  var timer = ctrl && setTimeout(function () { ctrl.abort(); }, 12000);
+  return fetch("https://snipcam-forms.vercel.app/api/" + path, { method: "POST", body: new FormData(form), signal: ctrl && ctrl.signal })
+    .then(function (r) { return r.json().then(function (d) { if (!r.ok || !d.ok) throw d; return d; }); })
+    .finally(function () { if (timer) clearTimeout(timer); });
+}
+// The waitlist: the address is saved, and the form says so.
 (function () {
   var form = document.getElementById("waitlist");
   if (!form) return;
@@ -270,10 +273,11 @@
     e.preventDefault();
     btn.disabled = true;
     note.textContent = "";
-    fetch("https://formsubmit.co/ajax/ericnguyendsg@gmail.com", { method: "POST", headers: { Accept: "application/json" }, body: new FormData(form) })
-      .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+    snipcamSend("waitlist", form)
       .then(function () { form.reset(); note.textContent = "You\u2019re on the list."; if (window.posthog) posthog.capture("waitlist_joined"); })
-      .catch(function () { note.innerHTML = 'Didn\u2019t go through. <a href="mailto:ericnguyendsg@gmail.com?subject=snipcam%20waitlist">Email us instead</a>.'; })
+      .catch(function (e) {
+        if (e && e.error === "email") { note.textContent = "That email doesn\u2019t look right."; return; }
+        note.innerHTML = 'Didn\u2019t go through. <a href="mailto:ericnguyendsg@gmail.com?subject=snipcam%20waitlist">Email us instead</a>.'; })
       .then(function () { btn.disabled = false; });
   });
 })();
@@ -288,9 +292,7 @@
     e.preventDefault();
     btn.disabled = true;
     note.textContent = "";
-    var data = new FormData(form);
-    fetch("https://formsubmit.co/ajax/ericnguyendsg@gmail.com", { method: "POST", headers: { Accept: "application/json" }, body: data })
-      .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+    snipcamSend("feedback", form)
       .then(function () { form.reset(); note.textContent = "Got it. Thank you."; if (window.posthog) posthog.capture("feedback_sent"); })
       .catch(function () { note.innerHTML = 'Didn\u2019t send. <a href="mailto:ericnguyendsg@gmail.com">Email it instead</a>.'; })
       .then(function () { btn.disabled = false; });
