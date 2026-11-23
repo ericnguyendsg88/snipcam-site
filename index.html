@@ -388,6 +388,7 @@ function snipcamSend(path, form) {
       .catch(function (e) {
         capture.cancel();
         if (e && e.error === "email") { note.textContent = "That email doesn\u2019t look right."; return; }
+        if (e && e.error === "rate") { note.textContent = "That\u2019s a lot of sign-ups from here. Try again in an hour."; return; }
         note.innerHTML = 'Didn\u2019t go through. <a href="mailto:ericnguyendsg@gmail.com?subject=snipcam%20waitlist">Email us instead</a>.'; })
       .then(function () { btn.disabled = false; });
   });
@@ -430,7 +431,10 @@ function snipcamSend(path, form) {
         done.classList.add("show");
         if (window.posthog) posthog.capture("feedback_sent");
       })
-      .catch(function () { capture.cancel(); note.innerHTML = 'Didn\u2019t send. <a href="mailto:ericnguyendsg@gmail.com">Email it instead</a>.'; })
+      .catch(function (e) {
+        capture.cancel();
+        if (e && e.error === "rate") { note.textContent = "Thanks for all the notes! Give it an hour, then send more."; return; }
+        note.innerHTML = 'Didn\u2019t send. <a href="mailto:ericnguyendsg@gmail.com">Email it instead</a>.'; })
       .then(function () { btn.disabled = false; });
   });
   document.getElementById("fb-again").addEventListener("click", function () {
