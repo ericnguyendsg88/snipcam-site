@@ -98,6 +98,18 @@
   h2 { font-size: clamp(28px, 5vw, 40px); line-height: 1.15; letter-spacing: -.025em; margin: 0; }
   footer { display: flex; justify-content: center; gap: 6px 18px; flex-wrap: wrap; margin-top: 36px; font-size: 13px; color: var(--muted); }
   footer a { color: inherit; }
+  /* What is still coming in from the right is soft, and sharpens as it moves left. Four
+     blurs, each stronger and starting further right, so no line shows where one begins.
+     --k runs 1 to 0 as the end panel arrives. It scales the blur itself: fading the
+     parent with opacity would stop backdrop-filter from seeing the page. */
+  .edge-blur { --k: 1; position: fixed; z-index: 4; top: 0; right: 0; bottom: 0; width: 24vw; pointer-events: none; }
+  .edge-blur i { position: absolute; inset: 0; -webkit-backdrop-filter: blur(calc(var(--r) * var(--k))); backdrop-filter: blur(calc(var(--r) * var(--k))); -webkit-mask-image: linear-gradient(90deg, transparent var(--a), #000 var(--b)); mask-image: linear-gradient(90deg, transparent var(--a), #000 var(--b)); }
+  .edge-blur i:nth-child(1) { --r: 1.5px; --a: 0%; --b: 30%; }
+  .edge-blur i:nth-child(2) { --r: 3px; --a: 20%; --b: 52%; }
+  .edge-blur i:nth-child(3) { --r: 7px; --a: 40%; --b: 74%; }
+  .edge-blur i:nth-child(4) { --r: 14px; --a: 60%; --b: 96%; }
+  /* A phone is narrow, so the soft edge is too. */
+  @media (max-width: 600px) { .edge-blur { width: 16vw; } }
   a:focus-visible { outline: 3px solid #b88b4c; outline-offset: 5px; }
   .feedback { max-width: 540px; margin: 0 auto; text-align: left; }
   .feedback h2 { text-align: center; }
@@ -267,6 +279,7 @@
   </footer>
   </div>
 </main>
+<div class="edge-blur" id="edge-blur" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 
 <script>
 (function () {
@@ -439,6 +452,18 @@ function snipcamSend(path, form) {
 (function () {
   var strip = document.getElementById("strip");
   strip.focus({ preventScroll: true });
+  // The right edge clears as the last panel comes in, so the feedback form ends up sharp.
+  var blur = document.getElementById("edge-blur"), end = strip.querySelector(".end");
+  function clearAtEnd() {
+    var left = strip.scrollWidth - strip.clientWidth - strip.scrollLeft;
+    var k = Math.max(0, Math.min(1, left / end.offsetWidth));
+    blur.style.setProperty("--k", k.toFixed(3));
+    blur.style.visibility = k < .01 ? "hidden" : "";
+  }
+  strip.addEventListener("scroll", clearAtEnd, { passive: true });
+  window.addEventListener("resize", clearAtEnd);
+  window.addEventListener("load", clearAtEnd);
+  clearAtEnd();
   window.addEventListener("wheel", function (e) {
     if (e.ctrlKey || Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
     // A short window's panel, or a long note, scrolls down first.
