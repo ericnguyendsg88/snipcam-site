@@ -10,13 +10,12 @@
 <script>document.documentElement.classList.add("js")</script>
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=20261123">
 <style>
+  /* Light only: the strip's screenshots are drawn on this paper. */
   :root { --bg: #f5f4f1; --ink: #211d18; --muted: #746c62; --cta: #211d18; --grain: url("assets/paper-grain.png"); color-scheme: light; }
-  @media (prefers-color-scheme: dark) { :root { --bg: #16150f; --ink: #f2eee7; --muted: #a8a199; --cta: #f2eee7; --grain: url("assets/paper-grain-dark.png"); color-scheme: dark; } }
   * { box-sizing: border-box; }
   html, body { height: 100%; }
   /* The app's paper: its colour under the same fine grain. */
-  body { margin: 0; background: var(--grain) 0 0 / 96px 96px repeat, var(--bg); color: var(--ink); font: 400 17px/1.5 -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; display: flex; flex-direction: column; }
-  main { flex: 1; display: grid; place-items: center; text-align: center; padding: 48px 22px; }
+  body { margin: 0; background: var(--grain) 0 0 / 96px 96px repeat, var(--bg); color: var(--ink); font: 400 17px/1.5 -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; overflow: hidden; }
   /* The app's launch icon, on the page: the paper tile comes up, the four corner brackets
      fade in out of a blur from the top left round clockwise, the lens and its gold crescent
      settle in, then the lettering is written in, s-n-i-p-c-a-m on one pen. Layers are drawn
@@ -82,24 +81,26 @@
   @keyframes joined-icon { from { opacity: 0; transform: scale(.6) rotate(-8deg); } }
   @keyframes spark { 0% { opacity: 0; transform: scale(.2) rotate(0); } 35% { opacity: 1; transform: scale(1.15) rotate(20deg); } 100% { opacity: 0; transform: scale(.6) translateY(-10px) rotate(60deg); } }
   @media (prefers-reduced-motion: reduce) { .joined.show, .joined.show img, .joined.show .spark { animation: none; } .joined .spark { display: none; } }
-  footer { display: flex; justify-content: center; gap: 22px; flex-wrap: wrap; padding: 22px; font-size: 14px; color: var(--muted); }
+  /* One screen tall, read left to right: the intro, the App Store screenshots as one
+     unbroken strip, then feedback. The page itself never scrolls down. */
+  .strip { display: flex; height: 100vh; height: 100dvh; overflow-x: auto; overflow-y: hidden; overscroll-behavior: contain; outline: none; scrollbar-width: none; }
+  .strip::-webkit-scrollbar { display: none; }
+  /* A panel scrolls on its own only when the window is too short to hold it. */
+  .panel { flex: 0 0 auto; height: 100%; overflow-y: auto; display: flex; flex-direction: column; align-items: center; justify-content: safe center; text-align: center; padding: 24px 22px; }
+  .panel > * { flex-shrink: 0; width: 100%; }
+  /* Narrower than the window, so the first screenshot shows there is more to the side. */
+  .intro { width: min(520px, 90vw); }
+  .end { width: min(580px, 100vw); }
+  .shots { flex: 0 0 auto; display: flex; align-items: center; height: 100%; -webkit-mask-image: linear-gradient(90deg, transparent, #000 40px, #000 calc(100% - 40px), transparent); mask-image: linear-gradient(90deg, transparent, #000 40px, #000 calc(100% - 40px), transparent); }
+  /* Frames sit flush: phones cross from one into the next. */
+  .shots img { display: block; flex: none; height: min(100%, 217.3vw); width: auto; aspect-ratio: 1320 / 2868; }
+  h2 { font-size: clamp(28px, 5vw, 40px); line-height: 1.15; letter-spacing: -.025em; margin: 0; }
+  footer { display: flex; justify-content: center; gap: 6px 18px; flex-wrap: wrap; margin-top: 36px; font-size: 13px; color: var(--muted); }
   footer a { color: inherit; }
-  main { display: block; padding: 64px 22px 48px; }
-  .screens { max-width: 960px; margin: 80px auto 0; }
-  .eyebrow { text-transform: uppercase; letter-spacing: .14em; font-size: 12px; font-weight: 600; }
-  h2 { font-size: clamp(28px, 5vw, 40px); line-height: 1.15; letter-spacing: -.025em; margin: 12px 0; }
-  /* One feature per row: the screen beside its own title and text, alternating sides. */
-  .features { display: grid; gap: 96px; margin: 56px 0 72px; text-align: left; }
-  .feature { display: grid; grid-template-columns: 300px minmax(0, 380px); gap: 72px; align-items: center; justify-content: center; }
-  .feature:nth-child(even) { grid-template-columns: minmax(0, 380px) 300px; }
-  .feature:nth-child(even) .shot { order: 2; }
-  .shot { min-width: 0; }
-  .shot img, .shot video { display: block; width: 100%; height: auto; border-radius: 32px; box-shadow: 0 18px 40px rgba(0,0,0,.18); border: 5px solid #24231f; }
-  .copy h3 { font-size: clamp(26px, 3.6vw, 34px); line-height: 1.12; letter-spacing: -.025em; margin: 0 0 14px; }
-  .copy p { color: var(--muted); font-size: 18px; line-height: 1.55; margin: 0; }
   a:focus-visible { outline: 3px solid #b88b4c; outline-offset: 5px; }
-  .feedback { max-width: 540px; margin: 96px auto 0; text-align: left; }
+  .feedback { max-width: 540px; margin: 0 auto; text-align: left; }
   .feedback h2 { text-align: center; }
+  .end .cta { width: auto; }
   /* One card: kind chips, the note, then email and send on one line. */
   .fb-card { margin-top: 24px; padding: 16px; border-radius: 28px; background: color-mix(in srgb, var(--ink) 5%, transparent); border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent); }
   .fb-card[hidden] { display: none; }
@@ -131,14 +132,15 @@
   .snipped { transition: transform .32s cubic-bezier(.5, 0, .75, .3), opacity .32s ease-in, filter .32s ease-in; transform: scale(.9) translateY(6px); opacity: 0; filter: blur(3px); }
   .joined .again { display: inline-block; margin-top: 14px; font: inherit; font-size: 15px; font-weight: 600; color: var(--ink); background: none; border: 0; text-decoration: underline; cursor: pointer; }
   .fb-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
-  @media(max-width: 760px) {
-    .features { gap: 72px; margin: 40px 0 56px; }
-    .feature, .feature:nth-child(even) { grid-template-columns: minmax(0, 280px); gap: 28px; }
-    .feature:nth-child(even) .shot { order: 0; }
-    .shot img, .shot video { border-radius: 28px; border-width: 4px; }
-    .copy { text-align: center; }
-    .copy p { font-size: 17px; }
-    .screens { margin-top: 64px; }
+  @media (max-height: 620px) {
+    .panel { padding-block: 14px; }
+    .mark { width: 64px; height: 64px; margin-bottom: 12px; }
+    h1 { font-size: 30px; }
+    .intro p { font-size: 15px; margin-top: 8px; }
+    .waitlist, .joined { margin-top: 16px; }
+    .fb-card { margin-top: 12px; }
+    .fb-card textarea { min-height: 70px; }
+    .end .cta, footer { margin-top: 14px; }
   }
 </style>
 <script>
@@ -178,7 +180,8 @@
 </script>
 </head>
 <body>
-<main>
+<main class="strip" id="strip" tabindex="-1">
+  <div class="panel intro">
   <div>
     <div class="mark" role="img" aria-label="snipcam app icon" title="Replay">
       <div class="tile"></div>
@@ -198,7 +201,7 @@
       <img class="grain" src="assets/mark/grain.png" alt="">
     </div>
     <h1>A new way to capture your moments.</h1>
-    <p>A camera for the small but memorable moments.</p>
+    <p>Snip two or three seconds of every moment worth keeping.</p>
     <form class="waitlist" id="waitlist" action="https://snipcam-forms.vercel.app/api/waitlist" method="POST">
       <input type="email" name="email" required autocomplete="email" aria-label="Email" placeholder="you@email.com">
       <input type="text" name="_honey" class="fb-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -217,36 +220,19 @@
     <!-- Apple's official badge, only once snipcam is on sale: Apple allows it on App Store links alone. -->
     <a class="store-badge" id="store-badge" hidden href="https://apps.apple.com/app/id6788578899"><img src="assets/app-store-badge.svg" alt="Download on the App Store" width="150" height="50"></a>
   </div>
-  <section class="screens" aria-labelledby="screens-title">
-    <h2 id="screens-title">Inside snipcam</h2>
-    <div class="features">
-      <div class="feature">
-        <div class="shot"><video muted playsinline loop preload="none" poster="assets/capture-animation-poster.jpg?v=20261115b" data-src="assets/capture-animation.mp4?v=20261115b" width="720" height="1564" aria-label="A snip captured on a beach: the finder sinks and the snip drops into the Stack tab"></video></div>
-        <div class="copy"><h3>Capture in motion</h3><p>Hold for two seconds. It drops into your stack.</p></div>
-      </div>
-      <div class="feature">
-        <div class="shot"><img src="assets/screen-gallery.jpg?v=20261112" width="720" height="1564" alt="snipcam Library with today's day stack centred and the week strip under it" loading="lazy"></div>
-        <div class="copy"><h3>Stack your snips</h3><p>Each day becomes a stack.</p></div>
-      </div>
-      <div class="feature">
-        <div class="shot"><video muted playsinline loop preload="none" poster="assets/playback-real-snips-poster.jpg?v=20261115b" data-src="assets/playback-real-snips.mp4?v=20261115b" width="720" height="1564" aria-label="Today opened from the Library, its snips playing back to back"></video></div>
-        <div class="copy"><h3>Replay your stack</h3><p>Open a day and it plays back to back.</p></div>
-      </div>
-      <div class="feature">
-        <div class="shot"><img src="assets/screen-stack.jpg?v=20261112" width="720" height="1564" alt="The Small things stack playing a snip of boats at sea" loading="lazy"></div>
-        <div class="copy"><h3>Make your own stacks</h3><p>Group snips by trip, person or season.</p></div>
-      </div>
-      <div class="feature">
-        <div class="shot"><video muted playsinline loop preload="none" poster="assets/feed-real-snips-poster.jpg?v=20261115" data-src="assets/feed-real-snips.mp4?v=20261115" width="720" height="1564" aria-label="The Life Feed swiping from one snip to the next"></video></div>
-        <div class="copy"><h3>Doomscroll your snips</h3><p>Your snips, shuffled into one scroll.</p></div>
-      </div>
-      <div class="feature">
-        <div class="shot"><img src="assets/screen-layout.jpg?v=20261112" width="720" height="1564" alt="Three snips stacked in one frame in the layout editor" loading="lazy"></div>
-        <div class="copy"><h3>Make a collage</h3><p>Arrange snips in rows or a grid.</p></div>
-      </div>
-    </div>
-    <a class="cta" href="https://testflight.apple.com/join/RshC7Wny" data-store="Get snipcam">Try SnipCam on TestFlight</a>
+  </div>
+  <section class="shots" aria-label="Inside snipcam">
+    <img src="assets/strip/01-capture-2s.jpg?v=20261127" alt="Capture 2s of your moments, organize them nicely." width="829" height="1800">
+    <img src="assets/strip/02-day-stack.jpg?v=20261127" alt="Your day, played back as one stack." width="829" height="1800">
+    <img src="assets/strip/03-timestamp-languages.jpg?v=20261127" alt="Timestamps in your language." width="829" height="1800">
+    <img src="assets/strip/04-camera-modes.jpg?v=20261127" alt="Front and back. Tall and wide." width="829" height="1800" loading="lazy">
+    <img src="assets/strip/05-export-frame.jpg?v=20261127" alt="Export it in a frame." width="829" height="1800" loading="lazy">
+    <img src="assets/strip/06-life-feed.jpg?v=20261127" alt="Doomscroll your own life." width="829" height="1800" loading="lazy">
+    <img src="assets/strip/07-snip-map.jpg?v=20261127" alt="Every snip clears the fog." width="829" height="1800" loading="lazy">
+    <img src="assets/strip/08-secure-stack.jpg?v=20261127" alt="Secure your stack." width="829" height="1800" loading="lazy">
+    <img src="assets/strip/09-private.jpg?v=20261127" alt="Your snips stay on your phone." width="829" height="1800" loading="lazy">
   </section>
+  <div class="panel end">
   <section class="feedback" aria-labelledby="fb-title">
     <h2 id="fb-title" style="text-align:center">Tell us what to build</h2>
     <form id="fb-form" class="fb-card" action="https://snipcam-forms.vercel.app/api/feedback" method="POST">
@@ -271,13 +257,15 @@
       <button class="again" type="button" id="fb-again">Send another</button>
     </div>
   </section>
+  <div><a class="cta" href="https://testflight.apple.com/join/RshC7Wny" data-store="Get snipcam">Try SnipCam on TestFlight</a></div>
+  <footer>
+    <span>© 2026 snipcam · Eric Nguyen</span>
+    <a href="privacy.html">Privacy</a>
+    <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Terms of Use</a>
+    <a href="mailto:ericnguyendsg@gmail.com">Support</a>
+  </footer>
+  </div>
 </main>
-<footer>
-  <span>© 2026 snipcam · Eric Nguyen</span>
-  <a href="privacy.html">Privacy</a>
-  <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Terms of Use</a>
-  <a href="mailto:ericnguyendsg@gmail.com">Support</a>
-</footer>
 
 <script>
 (function () {
@@ -445,25 +433,21 @@ function snipcamSend(path, form) {
 })();
 </script>
 <script>
-// Screen videos play from the start as each one scrolls into view and pause once it leaves.
+// A mouse wheel only turns up and down, so it moves the strip sideways. Trackpads
+// and touch already scroll sideways by themselves. Arrow keys work once the strip has focus.
 (function () {
-  var videos = document.querySelectorAll(".shot video[data-src]");
-  if (!videos.length || !("IntersectionObserver" in window)) return;
-  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      var v = e.target;
-      if (e.isIntersecting) {
-        if (!v.src) { v.src = v.dataset.src; v.preload = "auto"; }
-        else v.currentTime = 0;
-        var p = v.play();
-        if (p && p.catch) p.catch(function () {});
-      } else if (v.src) {
-        v.pause();
-      }
-    });
-  }, { threshold: 0.55 });
-  videos.forEach(function (v) { io.observe(v); });
+  var strip = document.getElementById("strip");
+  strip.focus({ preventScroll: true });
+  window.addEventListener("wheel", function (e) {
+    if (e.ctrlKey || Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+    // A short window's panel, or a long note, scrolls down first.
+    for (var el = e.target; el && el !== strip; el = el.parentElement) {
+      if (el.scrollHeight - el.clientHeight < 2 || !/auto|scroll/.test(getComputedStyle(el).overflowY)) continue;
+      if (e.deltaY < 0 ? el.scrollTop > 0 : el.scrollTop + el.clientHeight < el.scrollHeight - 1) return;
+    }
+    e.preventDefault();
+    strip.scrollLeft += e.deltaY * (e.deltaMode === 1 ? 16 : 1);
+  }, { passive: false });
 })();
 </script>
 <script>
