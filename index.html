@@ -110,6 +110,15 @@
   .edge-blur i:nth-child(4) { --r: 14px; --a: 60%; --b: 96%; }
   /* A phone is narrow, so the soft edge is too. */
   @media (max-width: 600px) { .edge-blur { width: 16vw; } }
+  /* The way on: an arrow at the right edge that nudges to the right. It leaves at the end. */
+  .more { position: fixed; z-index: 5; right: 20px; top: 50%; width: 56px; height: 56px; margin-top: -28px; padding: 0; display: grid; place-items: center; border-radius: 50%; border: 1px solid rgba(33,29,24,.1); background: rgba(255,255,255,.82); color: var(--ink); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: 0 8px 26px rgba(0,0,0,.16); cursor: pointer; -webkit-tap-highlight-color: transparent; transition: opacity .25s ease, transform .15s ease, visibility .25s; }
+  .more:active { transform: scale(.93); }
+  .more:focus-visible { outline: 3px solid #b88b4c; outline-offset: 3px; }
+  .more.gone { opacity: 0; visibility: hidden; }
+  .more svg { width: 24px; height: 24px; animation: nudge 1.6s ease-in-out infinite; }
+  @keyframes nudge { 0%, 55%, 100% { transform: translateX(-2px); } 28% { transform: translateX(4px); } }
+  @media (max-width: 600px) { .more { right: 8px; width: 44px; height: 44px; margin-top: -22px; } .more svg { width: 20px; height: 20px; } }
+  @media (prefers-reduced-motion: reduce) { .more svg { animation: none; } }
   a:focus-visible { outline: 3px solid #b88b4c; outline-offset: 5px; }
   .feedback { max-width: 540px; margin: 0 auto; text-align: left; }
   .feedback h2 { text-align: center; }
@@ -280,6 +289,7 @@
   </div>
 </main>
 <div class="edge-blur" id="edge-blur" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+<button class="more" id="more" type="button" aria-label="Scroll right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12.5 5.5 19 12l-6.5 6.5"/></svg></button>
 
 <script>
 (function () {
@@ -454,11 +464,20 @@ function snipcamSend(path, form) {
   strip.focus({ preventScroll: true });
   // The right edge clears as the last panel comes in, so the feedback form ends up sharp.
   var blur = document.getElementById("edge-blur"), end = strip.querySelector(".end");
+  var more = document.getElementById("more");
+  // One press moves on by about a screenshot.
+  more.addEventListener("click", function (e) {
+    var frame = strip.querySelector(".shots img").offsetWidth;
+    strip.scrollBy({ left: Math.min(frame, strip.clientWidth * .85), behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    // After a click or tap, the arrow keys keep working.
+    if (e.detail) strip.focus({ preventScroll: true });
+  });
   function clearAtEnd() {
     var left = strip.scrollWidth - strip.clientWidth - strip.scrollLeft;
     var k = Math.max(0, Math.min(1, left / end.offsetWidth));
     blur.style.setProperty("--k", k.toFixed(3));
     blur.style.visibility = k < .01 ? "hidden" : "";
+    more.classList.toggle("gone", k < .5);
   }
   strip.addEventListener("scroll", clearAtEnd, { passive: true });
   window.addEventListener("resize", clearAtEnd);
