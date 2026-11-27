@@ -1,5 +1,6 @@
 /* snipcam — landing. Cream paper, warm ink, one soft glow. System type only. */
 :root {
+  color-scheme: only light;
   /* A soft fade in from every edge: the blur is strongest at the rim and
      gone by --feather in, with no line where it stops. */
   --feather: 22px;
