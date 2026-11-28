@@ -123,6 +123,9 @@
   .feedback { max-width: 540px; margin: 0 auto; text-align: left; }
   .feedback h2 { text-align: center; }
   .end .cta { width: auto; }
+  /* The store listing's support page is this one, so a way to reach us is on the first screen. */
+  .support { margin-top: 22px; font-size: 14px; }
+  .support a { color: var(--muted); display: inline-block; padding: 6px 10px; }
   /* One card: kind chips, the note, then email and send on one line. */
   .fb-card { margin-top: 24px; padding: 16px; border-radius: 28px; background: color-mix(in srgb, var(--ink) 5%, transparent); border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent); }
   .fb-card[hidden] { display: none; }
@@ -163,6 +166,10 @@
     .fb-card { margin-top: 12px; }
     .fb-card textarea { min-height: 70px; }
     .end .cta, footer { margin-top: 14px; }
+    .support { margin-top: 2px; }
+    .mark { width: 54px; height: 54px; margin-bottom: 8px; }
+    .waitlist-note { margin-top: 4px; }
+    .beta-link { margin-top: 6px; }
   }
 </style>
 <script>
@@ -241,6 +248,7 @@
     <a class="beta-link" href="https://testflight.apple.com/join/RshC7Wny"><svg class="beta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 7.5v8M8.5 12.5 12 16l3.5-3.5"/></svg><span class="label">Try the TestFlight beta</span></a>
     <!-- Apple's official badge, only once snipcam is on sale: Apple allows it on App Store links alone. -->
     <a class="store-badge" id="store-badge" hidden href="https://apps.apple.com/app/id6788578899"><img src="assets/app-store-badge.svg" alt="Download on the App Store" width="150" height="50"></a>
+    <div class="support"><a href="mailto:ericnguyendsg@gmail.com?subject=snipcam%20support">Support</a></div>
   </div>
   </div>
   <section class="shots" aria-label="Inside snipcam">
